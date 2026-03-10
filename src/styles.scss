@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* Resettiamo i margini di default del browser */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  /* Il font pulito di Material */
+  background-color: #f4f6f9;
+  /* Un grigio chiarissimo e riposante */
+}

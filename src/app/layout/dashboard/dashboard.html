@@ -1,0 +1,32 @@
+<div class="dashboard-layout">
+
+    <aside class="sidebar">
+        <div class="logo">
+            🦸‍♂️ MyComics
+        </div>
+
+        <nav class="menu">
+            <ul>
+                <li>📚 Albi</li>
+                <li>📝 Storie</li>
+                <li>🏢 Editori</li>
+                <li>🏷️ Collane</li>
+                <li>✍️ Autori</li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="main-wrapper">
+
+        <header class="topbar">
+            <div class="page-title">Dashboard</div>
+            <button class="logout-btn" (click)="logout()">Esci 🚪</button>
+        </header>
+
+        <main class="content-area">
+            <router-outlet></router-outlet>
+        </main>
+
+    </div>
+
+</div>

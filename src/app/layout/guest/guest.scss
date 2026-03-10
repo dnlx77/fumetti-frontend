@@ -1,0 +1,29 @@
+.guest-wrapper {
+    /* 1. Occupa sempre il 100% dell'altezza dello schermo */
+    min-height: 100vh;
+
+    /* 2. Attiviamo la magia di Flexbox */
+    display: flex;
+
+    /* 3. Centra orizzontalmente */
+    justify-content: center;
+
+    /* 4. Centra verticalmente */
+    align-items: center;
+
+    /* 5. Diamo uno sfondo elegante (un gradiente bluastro) */
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+}
+
+.guest-box {
+    /* Questo è il "foglio di carta" bianco su cui poggia il login */
+    background-color: white;
+    width: 100%;
+    max-width: 400px;
+    /* Non diventerà mai più largo di così */
+    padding: 40px;
+    border-radius: 12px;
+    /* Bordi morbidamente arrotondati */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    /* Una bella ombra per staccarlo dallo sfondo */
+}

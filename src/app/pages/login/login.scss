@@ -1,0 +1,28 @@
+.login-container {
+    text-align: center;
+
+    h2 {
+        margin-bottom: 5px;
+        color: #333;
+        font-size: 24px;
+    }
+
+    p {
+        margin-bottom: 30px;
+        color: #666;
+        font-size: 14px;
+    }
+
+    /* Forza i campi di testo e il bottone a prendere tutta la larghezza del cubo */
+    .full-width {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    /* Ingrandiamo un po' il bottone per renderlo più comodo */
+    .submit-btn {
+        padding: 25px 0;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+}

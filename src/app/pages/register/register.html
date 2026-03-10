@@ -1,0 +1,37 @@
+<div class="register-container">
+    <h2>Crea un Account 🚀</h2>
+    <p>Unisciti al nostro gestionale fumetti</p>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nome Completo</mat-label>
+            <input matInput type="text" formControlName="name" placeholder="es. Bruce Wayne">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Conferma Password</mat-label>
+            <input matInput type="password" formControlName="password_confirmation">
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="submit" [disabled]="registerForm.invalid"
+            class="full-width submit-btn">
+            REGISTRATI
+        </button>
+
+        <div class="login-link">
+            Hai già un account? <a routerLink="/login">Accedi qui</a>
+        </div>
+
+    </form>
+</div>

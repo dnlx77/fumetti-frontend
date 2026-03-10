@@ -1,0 +1,44 @@
+.register-container {
+    text-align: center;
+
+    h2 {
+        margin-bottom: 5px;
+        color: #333;
+        font-size: 24px;
+    }
+
+    p {
+        margin-bottom: 25px;
+        color: #666;
+        font-size: 14px;
+    }
+
+    .full-width {
+        width: 100%;
+        margin-bottom: 5px;
+        /* Margine leggermente ridotto per far stare 4 campi comodamente nel cubo */
+    }
+
+    .submit-btn {
+        padding: 25px 0;
+        font-size: 16px;
+        margin-top: 15px;
+    }
+
+    .login-link {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #666;
+
+        a {
+            color: #3f51b5;
+            /* Il blu primario di Material */
+            font-weight: bold;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}

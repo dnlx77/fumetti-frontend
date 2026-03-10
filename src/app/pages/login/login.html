@@ -1,0 +1,27 @@
+<div class="login-container">
+    <h2>Bentornato! 🦸‍♂️</h2>
+    <p>Accedi al tuo gestionale fumetti</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="es. clark.kent@dailyplanet.com">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password">
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="submit" [disabled]="loginForm.invalid"
+            class="full-width submit-btn">
+            ENTRA
+        </button>
+
+        <div class="login-link" style="margin-top: 20px; text-align: center; font-size: 14px;">
+            Non hai un account? <a routerLink="/login/register"
+                style="color: #3f51b5; font-weight: bold; text-decoration: none;">Registrati</a>
+        </div>
+    </form>
+</div>
