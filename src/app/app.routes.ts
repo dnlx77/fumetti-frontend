@@ -3,6 +3,7 @@ import { Guest } from './layout/guest/guest';
 import { Dashboard } from './layout/dashboard/dashboard';
 import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
+import { Albi } from './pages/albi/albi';
 
 export const routes: Routes = [
   // 1. AREA PUBBLICA (Layout Guest)
@@ -21,7 +22,12 @@ export const routes: Routes = [
     path: '', // Se l'utente digita solo l'indirizzo base, entra nel gestionale
     component: Dashboard,
     children: [
-      // Qui dentro, più avanti, inseriremo: /albi, /autori, /storie ecc...
+        // Qui dentro, più avanti, inseriremo: /albi, /autori, /storie ecc...
+        // Se l'utente entra in /dashboard, lo rimandiamo subito alla lista degli albi
+        {path: '', redirectTo: 'albi', pathMatch: 'full'},
+
+        // Ecco la nostra nuova rotta figlia!
+        { path: 'albi', component: Albi },
     ]
   },
 

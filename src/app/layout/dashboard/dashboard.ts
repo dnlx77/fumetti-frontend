@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, Router } from '@angular/router'; // Dobbiamo importare RouterOutlet e Router
+import { RouterOutlet, Router, RouterLinkActive, RouterLink } from '@angular/router'; // Dobbiamo importare RouterOutlet e Router
 import { AuthService } from '../../core/services/auth'; // Il nostro maggiordomo!
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterOutlet], // Il "buco" per le pagine figlie
+  imports: [
+      RouterOutlet,
+      RouterLink,
+      RouterLinkActive
+  ], // Il "buco" per le pagine figlie
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
@@ -13,7 +17,7 @@ export class Dashboard {
   
   constructor(
     private authService: AuthService,
-    private router: Router
+    public router: Router
   ) {}
 
   logout() {
