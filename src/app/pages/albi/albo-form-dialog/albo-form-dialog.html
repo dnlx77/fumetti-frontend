@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Aggiungi Nuovo Albo</h2>
+<h2 mat-dialog-title>{{ isModifica ? 'Modifica Albo' : 'Aggiungi Nuovo Albo' }}</h2>
 
 <mat-dialog-content>
     <form [formGroup]="alboForm" class="form-container">
@@ -13,12 +13,12 @@
                 <mat-label>Barcode (ISBN/EAN)</mat-label>
                 <input matInput formControlName="barcode" placeholder="Es. 9771121580009">
             </mat-form-field>
-        
+
             <mat-form-field appearance="outline" class="third-width">
                 <mat-label>Numero Albo</mat-label>
                 <input matInput type="number" formControlName="numero" placeholder="Es. 410">
             </mat-form-field>
-        
+
             <mat-form-field appearance="outline" class="third-width">
                 <mat-label>Numero Pagine</mat-label>
                 <input matInput type="number" formControlName="num_pagine" placeholder="Es. 98">
@@ -26,24 +26,24 @@
         </div>
 
         <div class="row">
-        
+
             <mat-form-field appearance="outline" class="half-width">
                 <mat-label>Data Pubblicazione</mat-label>
                 <input matInput type="date" formControlName="data_pubblicazione">
             </mat-form-field>
-        
+
             <mat-form-field appearance="outline" class="half-width">
                 <mat-label>Prezzo</mat-label>
-        
+
                 <mat-button-toggle-group formControlName="valuta_prezzo" matPrefix class="inner-currency-toggle"
                     hideSingleSelectionIndicator="true">
                     <mat-button-toggle value="euro">€</mat-button-toggle>
                     <mat-button-toggle value="lire">₤</mat-button-toggle>
                 </mat-button-toggle-group>
-        
+
                 <input matInput type="number" step="0.01" formControlName="prezzo" placeholder="Es. 4.90">
             </mat-form-field>
-        
+
         </div>
 
         <div class="row">
@@ -71,10 +71,10 @@
         </div>
 
         <div class="row">
-        
+
             <mat-form-field appearance="outline" class="half-width">
                 <mat-label>Autori Copertina</mat-label>
-        
+
                 <mat-chip-grid #chipGridAutori aria-label="Selezione autori">
                     @for (autore of autoriSelezionati; track autore.id) {
                     <mat-chip-row (removed)="rimuoviAutore(autore)">
@@ -85,20 +85,20 @@
                     </mat-chip-row>
                     }
                 </mat-chip-grid>
-        
+
                 <input placeholder="Cerca e aggiungi autore..." #autoreInput [formControl]="autoriInputCtrl"
                     [matChipInputFor]="chipGridAutori" [matAutocomplete]="autoAutori">
-        
+
                 <mat-autocomplete #autoAutori="matAutocomplete" (optionSelected)="selezionaAutore($event)">
                     @for (autore of autoriFiltrati | async; track autore.id) {
                     <mat-option [value]="autore">{{autore.nome}}</mat-option>
                     }
                 </mat-autocomplete>
             </mat-form-field>
-        
+
             <mat-form-field appearance="outline" class="half-width">
                 <mat-label>Storie contenute</mat-label>
-        
+
                 <mat-chip-grid #chipGridStorie aria-label="Selezione storie">
                     @for (storia of storieSelezionate; track storia.id) {
                     <mat-chip-row (removed)="rimuoviStoria(storia)">
@@ -109,24 +109,29 @@
                     </mat-chip-row>
                     }
                 </mat-chip-grid>
-        
+
                 <input placeholder="Cerca e aggiungi storia..." #storiaInput [formControl]="storieInputCtrl"
                     [matChipInputFor]="chipGridStorie" [matAutocomplete]="autoStorie">
-        
+
                 <mat-autocomplete #autoStorie="matAutocomplete" (optionSelected)="selezionaStoria($event)">
                     @for (storia of storieFiltrate | async; track storia.id) {
                     <mat-option [value]="storia">{{storia.nome}}</mat-option>
                     }
                 </mat-autocomplete>
             </mat-form-field>
-        
+
         </div>
 
         <div class="file-upload-container">
-            <label>Immagine di Copertina:</label>
+            <label>
+                Immagine di Copertina:
+                @if (isModifica && data?.albo?.filename) {
+                <span class="copertina-attuale"> (copertina attuale presente — lascia vuoto per mantenerla)</span>
+                }
+            </label>
             <input type="file" (change)="onFileSelected($event)" accept="image/jpeg, image/png, image/webp">
             @if (fileCopertina) {
-            <div class="file-name">✅ File selezionato: {{ fileCopertina.name }}</div>
+            <div class="file-name">✅ Nuovo file selezionato: {{ fileCopertina.name }}</div>
             }
         </div>
 
@@ -135,5 +140,7 @@
 
 <mat-dialog-actions align="end">
     <button mat-button (click)="chiudi()">Annulla</button>
-    <button mat-raised-button color="primary" (click)="salva()">Salva Albo</button>
+    <button mat-raised-button color="primary" (click)="salva()">
+        {{ isModifica ? 'Salva Modifiche' : 'Salva Albo' }}
+    </button>
 </mat-dialog-actions>

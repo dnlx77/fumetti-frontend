@@ -35,17 +35,13 @@ mat-dialog-content {
 .inner-currency-toggle {
     height: 36px;
     margin-left: 4px;
-    /* Lo facciamo più basso del campo Material così non dà fastidio alla Label! */
     margin-right: 12px;
-    /* Diamo respiro tra il bottone e il numero digitato */
     border-radius: 4px;
 
-    /* Nascondiamo il baffetto di check di default */
     ::ng-deep .mat-pseudo-checkbox {
         display: none !important;
     }
 
-    /* Centriamo il testo e diamo l'altezza corretta ai bottoni interni */
     ::ng-deep .mat-button-toggle-label-content {
         line-height: 36px !important;
         padding: 0 12px !important;
@@ -53,12 +49,10 @@ mat-dialog-content {
         font-size: 15px;
     }
 
-    /* Colore sfondo blu quando attivo */
     ::ng-deep .mat-button-toggle-checked {
         background-color: #3f51b5 !important;
     }
 
-    /* Colore testo bianco quando attivo */
     ::ng-deep .mat-button-toggle-checked .mat-button-toggle-label-content {
         color: white !important;
     }
@@ -77,6 +71,14 @@ mat-dialog-content {
         font-weight: 500;
         margin-bottom: 10px;
         color: #555;
+
+        // Hint testuale per la copertina attuale in modalità modifica
+        .copertina-attuale {
+            font-weight: normal;
+            font-size: 12px;
+            color: #888;
+            font-style: italic;
+        }
     }
 
     input[type="file"] {

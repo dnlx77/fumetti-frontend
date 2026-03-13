@@ -1,7 +1,6 @@
-.albi-container {
+.storie-container {
 
-    // Header con titolo e bottone "Nuovo Albo" allineati
-    .albi-header {
+    .storie-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -43,29 +42,16 @@
         vertical-align: middle;
     }
 
-    .cover-img {
-        width: 45px;
-        height: 65px;
-        object-fit: cover;
-        border-radius: 4px;
-        margin: 5px 0;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    // La colonna trama è troncata per non allargare troppo la riga
+    .trama-cell {
+        max-width: 300px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #666;
+        font-size: 13px;
     }
 
-    .no-cover {
-        width: 45px;
-        height: 65px;
-        background-color: #eee;
-        color: #999;
-        font-size: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 4px;
-        margin: 5px 0;
-    }
-
-    // Cella azioni: i bottoni non si separano su due righe
     .azioni-cell {
         white-space: nowrap;
     }
@@ -78,7 +64,32 @@
     }
 }
 
-/* Paginatore personalizzato */
+// Badge colorato per lo stato
+.stato-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+
+    &.stato-in_corso {
+        background-color: #fff3e0;
+        color: #e65100;
+    }
+
+    &.stato-autoconclusiva {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    &.stato-finita {
+        background-color: #e3f2fd;
+        color: #1565c0;
+    }
+}
+
+// Paginatore
 .custom-paginator-wrapper {
     display: flex;
     align-items: center;

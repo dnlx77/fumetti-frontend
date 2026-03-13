@@ -1,0 +1,94 @@
+<h2 mat-dialog-title>{{ isModifica ? 'Modifica Storia' : 'Nuova Storia' }}</h2>
+
+<mat-dialog-content>
+    <form [formGroup]="storiaForm" class="form-container">
+
+        <!-- Nome -->
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nome della Storia</mat-label>
+            <input matInput formControlName="nome" placeholder="Es. Il ritorno del male">
+            @if (storiaForm.get('nome')?.hasError('required') && storiaForm.get('nome')?.touched) {
+            <mat-error>Il nome è obbligatorio</mat-error>
+            }
+        </mat-form-field>
+
+        <!-- Stato e Trama sulla stessa riga -->
+        <div class="row">
+
+            <mat-form-field appearance="outline" class="stato-width">
+                <mat-label>Stato</mat-label>
+                <mat-select formControlName="stato">
+                    @for (stato of statiDisponibili; track stato.valore) {
+                    <mat-option [value]="stato.valore">{{ stato.etichetta }}</mat-option>
+                    }
+                </mat-select>
+                @if (storiaForm.get('stato')?.hasError('required') && storiaForm.get('stato')?.touched) {
+                <mat-error>Lo stato è obbligatorio</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="trama-width">
+                <mat-label>Trama</mat-label>
+                <textarea matInput formControlName="trama" rows="3"
+                    placeholder="Breve descrizione della storia..."></textarea>
+            </mat-form-field>
+
+        </div>
+
+        <!-- Sezione Autori + Ruoli -->
+        <div class="autori-section">
+            <div class="autori-header">
+                <span class="autori-label">Autori e Ruoli</span>
+                <button mat-stroked-button type="button" color="primary" (click)="aggiungiRiga()">
+                    <mat-icon>add</mat-icon>
+                    Aggiungi autore
+                </button>
+            </div>
+
+            @if (righeAutoriRuoli.length === 0) {
+            <p class="nessun-autore">Nessun autore associato. Clicca "Aggiungi autore" per iniziare.</p>
+            }
+
+            @for (riga of righeAutoriRuoli; track $index) {
+            <div class="riga-autore-ruolo">
+
+                <!-- Autocomplete Autore -->
+                <mat-form-field appearance="outline" class="autore-field">
+                    <mat-label>Autore</mat-label>
+                    <input type="text" matInput [formControl]="riga.autoreCtrl" [matAutocomplete]="autoAutore">
+                    <mat-autocomplete #autoAutore="matAutocomplete" [displayWith]="mostraNome">
+                        @for (autore of riga.autoreFiltrati$ | async; track autore.id) {
+                        <mat-option [value]="autore">{{ autore.nome }}</mat-option>
+                        }
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <!-- Select Ruolo -->
+                <mat-form-field appearance="outline" class="ruolo-field">
+                    <mat-label>Ruolo</mat-label>
+                    <input type="text" matInput [formControl]="riga.ruoloCtrl" [matAutocomplete]="autoRuolo">
+                    <mat-autocomplete #autoRuolo="matAutocomplete" [displayWith]="mostraDescrizione">
+                        @for (ruolo of riga.ruoliFiltrati$ | async; track ruolo.id) {
+                        <mat-option [value]="ruolo">{{ ruolo.descrizione }}</mat-option>
+                        }
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <!-- Bottone rimuovi -->
+                <button mat-icon-button color="warn" type="button" (click)="rimuoviRiga($index)" matTooltip="Rimuovi">
+                    <mat-icon>delete</mat-icon>
+                </button>
+
+            </div>
+            }
+        </div>
+
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="chiudi()">Annulla</button>
+    <button mat-raised-button color="primary" (click)="salva()">
+        {{ isModifica ? 'Salva Modifiche' : 'Salva Storia' }}
+    </button>
+</mat-dialog-actions>

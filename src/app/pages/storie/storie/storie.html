@@ -1,0 +1,81 @@
+<div class="storie-container">
+
+    <div class="storie-header">
+        <h2>Storie 📖</h2>
+        <button mat-raised-button color="primary" (click)="apriNuovaStoria()">
+            <mat-icon>add</mat-icon>
+            Nuova Storia
+        </button>
+    </div>
+
+    @if (isLoading()) {
+    <p>Caricamento storie... ⏳</p>
+    } @else {
+
+    <div class="table-container mat-elevation-z8">
+        <table mat-table [dataSource]="listaStorie()" class="full-width-table">
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> ID </th>
+                <td mat-cell *matCellDef="let storia"> {{ storia.id }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nome">
+                <th mat-header-cell *matHeaderCellDef> Nome </th>
+                <td mat-cell *matCellDef="let storia">
+                    <strong>{{ storia.nome || '-' }}</strong>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="stato">
+                <th mat-header-cell *matHeaderCellDef> Stato </th>
+                <td mat-cell *matCellDef="let storia">
+                    <span class="stato-badge" [ngClass]="'stato-' + storia.stato?.toLowerCase().replace(' ', '-')">
+                        {{ etichettaStato(storia.stato) }}
+                    </span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="trama">
+                <th mat-header-cell *matHeaderCellDef> Trama </th>
+                <td mat-cell *matCellDef="let storia" class="trama-cell" [matTooltip]="storia.trama || ''" matTooltipShowDelay="300">
+                    {{ storia.trama || '-' }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="azioni">
+                <th mat-header-cell *matHeaderCellDef> Azioni </th>
+                <td mat-cell *matCellDef="let storia" class="azioni-cell">
+                    <button mat-icon-button color="primary" (click)="apriModifica(storia)" matTooltip="Modifica storia">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="apriConfermaEliminazione(storia)"
+                        matTooltip="Elimina storia">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="colonneMostrate"></tr>
+            <tr mat-row *matRowDef="let row; columns: colonneMostrate;" class="hover-row"></tr>
+        </table>
+
+        <div class="custom-paginator-wrapper">
+            <mat-paginator [length]="totaleStorie()" [pageSize]="elementiPerPagina()" [pageIndex]="paginaCorrente()"
+                (page)="cambiaPagina($event)" [hidePageSize]="true" showFirstLastButtons aria-label="Seleziona pagina">
+            </mat-paginator>
+
+            <div class="jump-to-page">
+                <label>Vai a pagina:</label>
+                <input type="number" min="1" [max]="pagineTotali()" [value]="paginaCorrente() + 1" #pageInput
+                    (keyup.enter)="saltaAPagina(pageInput)" (blur)="saltaAPagina(pageInput)">
+                <span>di {{ pagineTotali() }}</span>
+            </div>
+        </div>
+
+        @if (listaStorie().length === 0) {
+        <div class="empty-state">Nessuna storia trovata.</div>
+        }
+    </div>
+    }
+</div>
