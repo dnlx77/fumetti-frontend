@@ -2,10 +2,14 @@ import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 // Importiamo il servizio e l'interfaccia
 import { AlboService } from '../../core/services/albo';
 import { Albo } from '../../core/models/albo';
 import { environment } from '../../../environments/environment';
+
+import { AlboFormDialog } from './albo-form-dialog/albo-form-dialog';
 
 @Component({
 	selector: 'app-albi',
@@ -13,7 +17,9 @@ import { environment } from '../../../environments/environment';
 	imports: [
 	    CommonModule,
 	    MatTableModule,
-		MatPaginatorModule
+		MatPaginatorModule,
+		MatButtonModule,
+		MatDialogModule
 	], 
 	templateUrl: './albi.html',
 	styleUrl: './albi.scss'
@@ -36,7 +42,10 @@ export class Albi implements OnInit {
 	// Definiamo in che ordine vogliamo vedere le colonne nella tabella
 	colonneMostrate: string[] = ['copertina', 'id', 'titolo', 'numero', 'collana', 'editore', 'data_pubblicazione'];
 	
-	constructor(private alboService: AlboService) {}
+	constructor(
+		private alboService: AlboService,
+		private dialog: MatDialog
+	) {}
 	
 	getImmagineUrl(filename: string): string {
 		// Sostituisci 'albi' con il nome della cartella in cui il tuo 
@@ -103,4 +112,19 @@ export class Albi implements OnInit {
    		}
   	}
 
+	apriModaleNuovoAlbo() {
+    	const dialogRef = this.dialog.open(AlboFormDialog, {
+    		width: '750px', // Decidiamo quanto deve essere larga
+			maxWidth: '95vw',
+    		disableClose: true // Impedisce di chiuderla cliccando fuori (utile se l'utente sta scrivendo!)
+    	});
+	
+    	// Quando la finestra si chiude, eseguiamo questo codice
+    	dialogRef.afterClosed().subscribe(risultato => {
+    		if (risultato === 'salvato') {
+    	    	// Se la modale ci dice che ha salvato, ricarichiamo la pagina 1 per vedere il nuovo albo!
+    	    	this.caricaFumetti(1);
+    		}
+    	});
+	}
 }

@@ -1,0 +1,139 @@
+<h2 mat-dialog-title>Aggiungi Nuovo Albo</h2>
+
+<mat-dialog-content>
+    <form [formGroup]="alboForm" class="form-container">
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Titolo dell'Albo</mat-label>
+            <input matInput formControlName="titolo" placeholder="Es. La notte eterna">
+        </mat-form-field>
+
+        <div class="row">
+            <mat-form-field appearance="outline" class="third-width">
+                <mat-label>Barcode (ISBN/EAN)</mat-label>
+                <input matInput formControlName="barcode" placeholder="Es. 9771121580009">
+            </mat-form-field>
+        
+            <mat-form-field appearance="outline" class="third-width">
+                <mat-label>Numero Albo</mat-label>
+                <input matInput type="number" formControlName="numero" placeholder="Es. 410">
+            </mat-form-field>
+        
+            <mat-form-field appearance="outline" class="third-width">
+                <mat-label>Numero Pagine</mat-label>
+                <input matInput type="number" formControlName="num_pagine" placeholder="Es. 98">
+            </mat-form-field>
+        </div>
+
+        <div class="row">
+        
+            <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Data Pubblicazione</mat-label>
+                <input matInput type="date" formControlName="data_pubblicazione">
+            </mat-form-field>
+        
+            <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Prezzo</mat-label>
+        
+                <mat-button-toggle-group formControlName="valuta_prezzo" matPrefix class="inner-currency-toggle"
+                    hideSingleSelectionIndicator="true">
+                    <mat-button-toggle value="euro">€</mat-button-toggle>
+                    <mat-button-toggle value="lire">₤</mat-button-toggle>
+                </mat-button-toggle-group>
+        
+                <input matInput type="number" step="0.01" formControlName="prezzo" placeholder="Es. 4.90">
+            </mat-form-field>
+        
+        </div>
+
+        <div class="row">
+
+            <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Cerca Editore</mat-label>
+                <input type="text" matInput formControlName="editore" [matAutocomplete]="autoEditore">
+                <mat-autocomplete #autoEditore="matAutocomplete" [displayWith]="mostraNome">
+                    @for (editore of editoriFiltrati | async; track editore.id) {
+                    <mat-option [value]="editore">{{ editore.nome }}</mat-option>
+                    }
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Cerca Collana</mat-label>
+                <input type="text" matInput formControlName="collana" [matAutocomplete]="autoCollana">
+                <mat-autocomplete #autoCollana="matAutocomplete" [displayWith]="mostraNome">
+                    @for (collana of collaneFiltrate | async; track collana.id) {
+                    <mat-option [value]="collana">{{ collana.nome }}</mat-option>
+                    }
+                </mat-autocomplete>
+            </mat-form-field>
+
+        </div>
+
+        <div class="row">
+        
+            <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Autori Copertina</mat-label>
+        
+                <mat-chip-grid #chipGridAutori aria-label="Selezione autori">
+                    @for (autore of autoriSelezionati; track autore.id) {
+                    <mat-chip-row (removed)="rimuoviAutore(autore)">
+                        {{autore.nome}}
+                        <button matChipRemove aria-label="Rimuovi">
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </mat-chip-row>
+                    }
+                </mat-chip-grid>
+        
+                <input placeholder="Cerca e aggiungi autore..." #autoreInput [formControl]="autoriInputCtrl"
+                    [matChipInputFor]="chipGridAutori" [matAutocomplete]="autoAutori">
+        
+                <mat-autocomplete #autoAutori="matAutocomplete" (optionSelected)="selezionaAutore($event)">
+                    @for (autore of autoriFiltrati | async; track autore.id) {
+                    <mat-option [value]="autore">{{autore.nome}}</mat-option>
+                    }
+                </mat-autocomplete>
+            </mat-form-field>
+        
+            <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Storie contenute</mat-label>
+        
+                <mat-chip-grid #chipGridStorie aria-label="Selezione storie">
+                    @for (storia of storieSelezionate; track storia.id) {
+                    <mat-chip-row (removed)="rimuoviStoria(storia)">
+                        {{storia.nome}}
+                        <button matChipRemove aria-label="Rimuovi">
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </mat-chip-row>
+                    }
+                </mat-chip-grid>
+        
+                <input placeholder="Cerca e aggiungi storia..." #storiaInput [formControl]="storieInputCtrl"
+                    [matChipInputFor]="chipGridStorie" [matAutocomplete]="autoStorie">
+        
+                <mat-autocomplete #autoStorie="matAutocomplete" (optionSelected)="selezionaStoria($event)">
+                    @for (storia of storieFiltrate | async; track storia.id) {
+                    <mat-option [value]="storia">{{storia.nome}}</mat-option>
+                    }
+                </mat-autocomplete>
+            </mat-form-field>
+        
+        </div>
+
+        <div class="file-upload-container">
+            <label>Immagine di Copertina:</label>
+            <input type="file" (change)="onFileSelected($event)" accept="image/jpeg, image/png, image/webp">
+            @if (fileCopertina) {
+            <div class="file-name">✅ File selezionato: {{ fileCopertina.name }}</div>
+            }
+        </div>
+
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="chiudi()">Annulla</button>
+    <button mat-raised-button color="primary" (click)="salva()">Salva Albo</button>
+</mat-dialog-actions>

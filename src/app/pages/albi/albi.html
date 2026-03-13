@@ -1,5 +1,13 @@
 <div class="albi-container">
-    <h2>La mia Collezione di Albi 📚</h2>
+    
+    <div class="header-actions"
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2 style="margin: 0;">La mia Collezione di Albi 📚</h2>
+    
+        <button mat-raised-button color="primary" (click)="apriModaleNuovoAlbo()">
+            ➕ Nuovo Albo
+        </button>
+    </div>
 
     @if (isLoading()) {
     <p>Connessione al database di Gotham in corso... ⏳</p>
