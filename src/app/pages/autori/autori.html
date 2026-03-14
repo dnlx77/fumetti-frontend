@@ -1,0 +1,84 @@
+<div class="autori-container">
+
+    <div class="autori-header">
+        <h2>✍️ Autori</h2>
+        <button mat-raised-button color="primary" (click)="apriNuovo()">
+            <mat-icon>add</mat-icon>
+            Nuovo Autore
+        </button>
+    </div>
+
+    @if (isLoading()) {
+        <p>Caricamento autori... ⏳</p>
+    } @else {
+
+    <div class="table-container mat-elevation-z8">
+        <table mat-table [dataSource]="listaAutori()" class="full-width-table">
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> ID </th>
+                <td mat-cell *matCellDef="let autore"> {{ autore.id }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cognome">
+                <th mat-header-cell *matHeaderCellDef> Cognome </th>
+                <td mat-cell *matCellDef="let autore">
+                    <strong>{{ autore.cognome }}</strong>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nome">
+                <th mat-header-cell *matHeaderCellDef> Nome </th>
+                <td mat-cell *matCellDef="let autore"> {{ autore.nome || '-' }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="pseudonimo">
+                <th mat-header-cell *matHeaderCellDef> Pseudonimo </th>
+                <td mat-cell *matCellDef="let autore"> {{ autore.pseudonimo || '-' }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="azioni">
+                <th mat-header-cell *matHeaderCellDef> Azioni </th>
+                <td mat-cell *matCellDef="let autore" class="azioni-cell">
+                    <button mat-icon-button color="primary"
+                            (click)="apriModifica(autore)"
+                            matTooltip="Modifica autore">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn"
+                            (click)="apriConfermaEliminazione(autore)"
+                            matTooltip="Elimina autore">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="colonneMostrate"></tr>
+            <tr mat-row *matRowDef="let row; columns: colonneMostrate;" class="hover-row"></tr>
+        </table>
+
+        <div class="custom-paginator-wrapper">
+            <mat-paginator
+                [length]="totale()"
+                [pageSize]="elementiPerPagina()"
+                [pageIndex]="paginaCorrente()"
+                (page)="cambiaPagina($event)"
+                [hidePageSize]="true"
+                showFirstLastButtons
+                aria-label="Seleziona pagina">
+            </mat-paginator>
+
+            <div class="jump-to-page">
+                <label>Vai a pagina:</label>
+                <input type="number" min="1" [max]="pagineTotali()" [value]="paginaCorrente() + 1" #pageInput
+                    (keyup.enter)="saltaAPagina(pageInput)" (blur)="saltaAPagina(pageInput)">
+                <span>di {{ pagineTotali() }}</span>
+            </div>
+        </div>
+
+        @if (listaAutori().length === 0) {
+            <div class="empty-state">Nessun autore trovato.</div>
+        }
+    </div>
+    }
+</div>

@@ -5,6 +5,10 @@ import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
 import { Albi } from './pages/albi/albi';
 import { Storie } from './pages/storie/storie/storie';
+import { Editori } from './pages/editori/editori';
+import { Collane } from './pages/collane/collane';
+import { Ruoli } from './pages/ruoli/ruoli';
+import { Autori } from './pages/autori/autori';
 
 export const routes: Routes = [
   // 1. AREA PUBBLICA
@@ -24,7 +28,11 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'albi', pathMatch: 'full' },
       { path: 'albi', component: Albi },
-      { path: 'storie', component: Storie },  // ← nuova rotta
+      { path: 'storie', component: Storie },
+      { path: 'editori', component: Editori },
+      { path: 'collane', component: Collane },
+      { path: 'ruoli', component: Ruoli },
+      { path: 'autori', component: Autori },
     ]
   },
 

@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>{{ isModifica ? 'Modifica Autore' : 'Nuovo Autore' }}</h2>
+
+<mat-dialog-content>
+    <form [formGroup]="form" class="form-container">
+
+        <div class="row">
+            <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Cognome *</mat-label>
+                <input matInput formControlName="cognome" placeholder="Es. Sclavi">
+                @if (form.get('cognome')?.hasError('required') && form.get('cognome')?.touched) {
+                    <mat-error>Il cognome è obbligatorio</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Nome</mat-label>
+                <input matInput formControlName="nome" placeholder="Es. Tiziano">
+            </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Pseudonimo</mat-label>
+            <input matInput formControlName="pseudonimo" placeholder="Es. John Doe">
+        </mat-form-field>
+
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="chiudi()">Annulla</button>
+    <button mat-raised-button color="primary" (click)="salva()">
+        {{ isModifica ? 'Salva Modifiche' : 'Salva Autore' }}
+    </button>
+</mat-dialog-actions>

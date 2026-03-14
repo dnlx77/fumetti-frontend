@@ -9,9 +9,10 @@
             <ul>
                 <li routerLink="/albi" [class.active]="router.url.includes('/albi')">📚 Albi</li>
                 <li routerLink="/storie" [class.active]="router.url.includes('/storie')">📝 Storie</li>
-                <li>🏢 Editori</li>
-                <li>🏷️ Collane</li>
-                <li>✍️ Autori</li>
+                <li routerLink="/editori" [class.active]="router.url.includes('/editori')">🏢 Editori</li>
+                <li routerLink="/collane" [class.active]="router.url.includes('/collane')">🏷️ Collane</li>
+                <li routerLink="/ruoli" [class.active]="router.url.includes('/ruoli')">🎭 Ruoli</li>
+                <li routerLink="/autori" [class.active]="router.url.includes('/autori')">✍️ Autori</li>
             </ul>
         </nav>
     </aside>
