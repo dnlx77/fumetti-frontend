@@ -13,6 +13,7 @@ import { StoriaService } from '../../../core/services/storia';
 import { Storia } from '../../../core/models/storia/storia';
 import { StoriaFormDialog } from '../storia-form-dialog/storia-form-dialog';
 import { ConfermaDialogComponent } from '../../../shared/conferma-dialog/conferma-dialog';
+import { LettureDialog } from '../../../shared/letture-dialog/letture-dialog';
 
 @Component({
   selector: 'app-storie',
@@ -26,6 +27,7 @@ import { ConfermaDialogComponent } from '../../../shared/conferma-dialog/conferm
     MatTooltipModule,
     MatChipsModule,
     MatSnackBarModule,
+    LettureDialog,
   ],
   templateUrl: './storie.html',
   styleUrl: './storie.scss'
@@ -39,7 +41,7 @@ export class Storie implements OnInit {
   elementiPerPagina = signal<number>(15);
   pagineTotali = computed(() => Math.ceil(this.totaleStorie() / this.elementiPerPagina()));
 
-  colonneMostrate: string[] = ['id', 'nome', 'stato', 'trama', 'azioni'];
+  colonneMostrate: string[] = ['id', 'nome', 'stato', 'trama', 'letture', 'azioni'];
 
   constructor(
     private storiaService: StoriaService,
@@ -153,4 +155,20 @@ export class Storie implements OnInit {
       }
     });
   }
+  apriLetture(albo: any): void {
+    const dialogRef = this.dialog.open(LettureDialog, {
+        width: '450px',
+        data: {
+            tipo: 'storia',
+            id: albo.id,
+            titolo: albo.titolo || `Albo #${albo.id}`
+        }
+    });
+ 
+    // Quando il dialog si chiude ricarichiamo per aggiornare il conteggio
+    dialogRef.afterClosed().subscribe(() => {
+        this.caricaStorie(this.paginaCorrente() + 1);
+    });
+}
+
 }

@@ -13,6 +13,7 @@ import { Albo } from '../../core/models/albo';
 import { environment } from '../../../environments/environment';
 import { AlboFormDialog } from './albo-form-dialog/albo-form-dialog';
 import { ConfermaDialogComponent } from '../../shared/conferma-dialog/conferma-dialog';
+import { LettureDialog } from '../../shared/letture-dialog/letture-dialog';
 
 @Component({
   selector: 'app-albi',
@@ -25,6 +26,7 @@ import { ConfermaDialogComponent } from '../../shared/conferma-dialog/conferma-d
     MatIconModule,
     MatTooltipModule,
     MatSnackBarModule,
+    LettureDialog,
   ],
   templateUrl: './albi.html',
   styleUrl: './albi.scss'
@@ -41,7 +43,7 @@ export class Albi implements OnInit {
   apiUrl = environment.apiUrl.replace('/api/v1', '');
 
   // Aggiunta la colonna 'azioni' in fondo
-  colonneMostrate: string[] = ['copertina', 'id', 'titolo', 'numero', 'collana', 'editore', 'data_pubblicazione', 'azioni'];
+  colonneMostrate: string[] = ['copertina', 'id', 'titolo', 'numero', 'collana', 'editore', 'data_pubblicazione', 'letture', 'azioni'];
 
   constructor(
     private alboService: AlboService,
@@ -159,4 +161,20 @@ export class Albi implements OnInit {
       }
     });
   }
+
+  apriLetture(albo: any): void {
+    const dialogRef = this.dialog.open(LettureDialog, {
+        width: '450px',
+        data: {
+            tipo: 'albo',
+            id: albo.id,
+            titolo: albo.titolo || `Albo #${albo.id}`
+        }
+    });
+ 
+    // Quando il dialog si chiude ricarichiamo per aggiornare il conteggio
+    dialogRef.afterClosed().subscribe(() => {
+        this.caricaFumetti(this.paginaCorrente() + 1);
+    });
+}
 }

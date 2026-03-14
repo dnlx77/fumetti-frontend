@@ -43,6 +43,16 @@
                 </td>
             </ng-container>
 
+            <ng-container matColumnDef="letture">
+                <th mat-header-cell *matHeaderCellDef> Letture </th>
+                <td mat-cell *matCellDef="let storia">
+                    <button mat-button class="badge-letture" (click)="apriLetture(storia)" matTooltip="Gestisci letture">
+                        <mat-icon>menu_book</mat-icon>
+                        <span class="conteggio">{{ storia.date_lettura_count ?? 0 }}</span>
+                    </button>
+                </td>
+            </ng-container>
+
             <ng-container matColumnDef="azioni">
                 <th mat-header-cell *matHeaderCellDef> Azioni </th>
                 <td mat-cell *matCellDef="let storia" class="azioni-cell">

@@ -76,6 +76,36 @@
         color: #777;
         font-style: italic;
     }
+
+    .badge-letture {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        min-width: unset;
+        padding: 0 8px;
+        height: 32px;
+        border-radius: 16px;
+        color: #3f51b5;
+
+        mat-icon {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .conteggio {
+            font-size: 13px;
+            font-weight: 600;
+            min-width: 14px;
+            text-align: center;
+        }
+
+        // Se il conteggio è 0 lo mostriamo grigio
+        &:has(.conteggio:empty),
+        &.zero {
+            color: #bbb;
+        }
+    }
 }
 
 /* Paginatore personalizzato */

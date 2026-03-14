@@ -1,0 +1,54 @@
+<h2 mat-dialog-title>
+    📖 Letture — {{ data.titolo || data.tipo }}
+</h2>
+
+<mat-dialog-content>
+
+    <!-- Sezione aggiunta nuova lettura -->
+    <div class="aggiungi-lettura">
+        <mat-form-field appearance="outline" class="data-field">
+            <mat-label>Data lettura</mat-label>
+            <input matInput type="date" [formControl]="dataCtrl">
+        </mat-form-field>
+
+        <button mat-raised-button color="primary"
+                (click)="aggiungiLettura()"
+                [disabled]="dataCtrl.invalid || isSaving()">
+            <mat-icon>add</mat-icon>
+            Aggiungi
+        </button>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Lista letture esistenti -->
+    @if (isLoading()) {
+        <div class="loading-wrapper">
+            <mat-spinner diameter="32"></mat-spinner>
+        </div>
+    } @else if (letture().length === 0) {
+        <p class="empty-state">Nessuna lettura registrata.</p>
+    } @else {
+        <ul class="letture-list">
+            @for (lettura of letture(); track lettura.id) {
+                <li class="lettura-row">
+                    <mat-icon class="book-icon">menu_book</mat-icon>
+                    <span class="data">{{ lettura.data_lettura | date:'dd/MM/yyyy' }}</span>
+                    <button mat-icon-button color="warn"
+                            (click)="eliminaLettura(lettura)"
+                            matTooltip="Elimina lettura">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </li>
+            }
+        </ul>
+        <p class="totale">Totale: <strong>{{ letture().length }}</strong>
+            {{ letture().length === 1 ? 'lettura' : 'letture' }}
+        </p>
+    }
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="chiudi()">Chiudi</button>
+</mat-dialog-actions>
