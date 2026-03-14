@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialogRef, MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MatDialogModule, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -9,6 +9,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LetturaService, Lettura } from '../../core/services/lettura';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ConfermaDialogComponent } from '../conferma-dialog/conferma-dialog';
 
 export interface LettureDialogData {
   tipo: 'albo' | 'storia';  // distingue albo da storia
@@ -29,6 +31,8 @@ export interface LettureDialogData {
     MatTooltipModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule,
+    MatSnackBarModule,
+    ConfermaDialogComponent,
   ],
   templateUrl: './letture-dialog.html',
   styleUrl: './letture-dialog.scss'
@@ -48,6 +52,8 @@ export class LettureDialog implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<LettureDialog>,
     private letturaService: LetturaService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: LettureDialogData
   ) {}
 
@@ -76,9 +82,16 @@ export class LettureDialog implements OnInit {
   aggiungiLettura() {
     if (this.dataCtrl.invalid || this.isSaving()) return;
 
-    this.isSaving.set(true);
     const data = this.dataCtrl.value!;
 
+    // Controllo frontend — data già presente?
+    const dataGiaPresente = this.letture().some(l => l.data_lettura === data);
+    if (dataGiaPresente) {
+        this.snackBar.open('Hai già registrato una lettura per questa data.', 'OK', { duration: 3000 });
+        return;
+    }
+
+    this.isSaving.set(true);
     const chiamata = this.data.tipo === 'albo'
       ? this.letturaService.addLetturaAlbo(this.data.id, data)
       : this.letturaService.addLetturaStoria(this.data.id, data);
@@ -98,13 +111,27 @@ export class LettureDialog implements OnInit {
   }
 
   eliminaLettura(lettura: Lettura) {
-    const chiamata = this.data.tipo === 'albo'
-      ? this.letturaService.deleteLetturaAlbo(this.data.id, lettura.id)
-      : this.letturaService.deleteLetturaStoria(this.data.id, lettura.id);
+    const dialogRef = this.dialog.open(ConfermaDialogComponent, {
+        width: '380px',
+        data: {
+            titolo: 'Conferma eliminazione',
+            messaggio: `Sei sicuro di voler eliminare la lettura del ${new Date(lettura.data_lettura).toLocaleDateString('it-IT')}?`,
+            labelConferma: 'Elimina',
+            labelAnnulla: 'Annulla'
+        }
+    });
 
-    chiamata.subscribe({
-      next: () => this.caricaLetture(),
-      error: (err) => console.error('Errore eliminazione lettura:', err)
+    dialogRef.afterClosed().subscribe((confermato: boolean) => {
+        if (confermato) {
+            const chiamata = this.data.tipo === 'albo'
+                ? this.letturaService.deleteLetturaAlbo(this.data.id, lettura.data_lettura)
+                : this.letturaService.deleteLetturaStoria(this.data.id, lettura.data_lettura);
+
+            chiamata.subscribe({
+                next: () => this.caricaLetture(),
+                error: (err) => console.error('Errore eliminazione lettura:', err)
+            });
+        }
     });
   }
 

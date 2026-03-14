@@ -7,6 +7,7 @@
 
         <nav class="menu">
             <ul>
+                <li routerLink="/home" [class.active]="router.url.includes('/home')">🏠 Home</li>
                 <li routerLink="/albi" [class.active]="router.url.includes('/albi')">📚 Albi</li>
                 <li routerLink="/storie" [class.active]="router.url.includes('/storie')">📝 Storie</li>
                 <li routerLink="/editori" [class.active]="router.url.includes('/editori')">🏢 Editori</li>

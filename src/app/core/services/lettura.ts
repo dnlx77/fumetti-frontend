@@ -33,9 +33,9 @@ export class LetturaService {
     });
   }
 
-  deleteLetturaAlbo(alboId: number, letturaId: number): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/albi/${alboId}/letture/${letturaId}`);
-  }
+  deleteLetturaAlbo(alboId: number, dataLettura: string): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/albi/${alboId}/letture/${dataLettura}`);
+}
 
   // --- STORIE ---
   getLettureStoria(storiaId: number): Observable<LettureResponse> {
@@ -48,7 +48,7 @@ export class LetturaService {
     });
   }
 
-  deleteLetturaStoria(storiaId: number, letturaId: number): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/storie/${storiaId}/letture/${letturaId}`);
-  }
+  deleteLetturaStoria(storiaId: number, dataLettura: string): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/storie/${storiaId}/letture/${dataLettura}`);
+}
 }

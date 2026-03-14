@@ -3,6 +3,7 @@ import { Guest } from './layout/guest/guest';
 import { Dashboard } from './layout/dashboard/dashboard';
 import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
+import { Home } from './pages/home/home';
 import { Albi } from './pages/albi/albi';
 import { Storie } from './pages/storie/storie/storie';
 import { Editori } from './pages/editori/editori';
@@ -26,7 +27,8 @@ export const routes: Routes = [
     path: '',
     component: Dashboard,
     children: [
-      { path: '', redirectTo: 'albi', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'home', component: Home },
       { path: 'albi', component: Albi },
       { path: 'storie', component: Storie },
       { path: 'editori', component: Editori },

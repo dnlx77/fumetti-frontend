@@ -1,0 +1,213 @@
+<div class="dashboard-home">
+
+    @if (isLoading()) {
+        <div class="loading-state">
+            <p>Caricamento dashboard... ⏳</p>
+        </div>
+    } @else if (dati(); as d) {
+
+        <!-- ================================ -->
+        <!-- CARDS TOTALI                     -->
+        <!-- ================================ -->
+        <div class="cards-row">
+            <mat-card class="stat-card albi">
+                <mat-icon>menu_book</mat-icon>
+                <div class="stat-info">
+                    <span class="stat-numero">{{ d.totali.albi }}</span>
+                    <span class="stat-label">Albi</span>
+                </div>
+            </mat-card>
+            <mat-card class="stat-card letti">
+                <mat-icon>check_circle</mat-icon>
+                <div class="stat-info">
+                    <span class="stat-numero">{{ d.totali.albi_letti }}</span>
+                    <span class="stat-label">Letti</span>
+                </div>
+            </mat-card>
+            <mat-card class="stat-card da-leggere">
+                <mat-icon>bookmark</mat-icon>
+                <div class="stat-info">
+                    <span class="stat-numero">{{ d.totali.albi_da_leggere }}</span>
+                    <span class="stat-label">Da leggere</span>
+                </div>
+            </mat-card>
+            <mat-card class="stat-card storie">
+                <mat-icon>auto_stories</mat-icon>
+                <div class="stat-info">
+                    <span class="stat-numero">{{ d.totali.storie }}</span>
+                    <span class="stat-label">Storie</span>
+                </div>
+            </mat-card>
+            <mat-card class="stat-card autori">
+                <mat-icon>draw</mat-icon>
+                <div class="stat-info">
+                    <span class="stat-numero">{{ d.totali.autori }}</span>
+                    <span class="stat-label">Autori</span>
+                </div>
+            </mat-card>
+        </div>
+
+        <!-- ================================ -->
+        <!-- CAROSELLO ULTIMI ALBI            -->
+        <!-- ================================ -->
+        <div class="section">
+            <h3 class="section-title">📚 Ultimi albi aggiunti</h3>
+
+            <div class="carosello-wrapper">
+                <button mat-icon-button class="carosello-btn prev" (click)="caroselloPrev()">
+                    <mat-icon>chevron_left</mat-icon>
+                </button>
+
+                <div class="carosello-viewport">
+                    <div class="carosello-track"
+                         [style.transform]="'translateX(-' + (caroselloIndex() * 160) + 'px)'">
+                        @for (albo of d.ultimi_albi; track albo.id) {
+                            <div class="carosello-card" [routerLink]="['/albi']"
+                                 matTooltip="{{ albo.titolo || 'Albo #' + albo.id }}">
+                                @if (albo.filename) {
+                                    <img [src]="getImmagineUrl(albo.filename)"
+                                         alt="{{ albo.titolo }}" class="copertina">
+                                } @else {
+                                    <div class="no-copertina">
+                                        <mat-icon>image_not_supported</mat-icon>
+                                    </div>
+                                }
+                                <div class="carosello-info">
+                                    <span class="albo-titolo">{{ albo.titolo || '-' }}</span>
+                                    @if (albo.numero) {
+                                        <span class="albo-numero">N° {{ albo.numero }}</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <button mat-icon-button class="carosello-btn next" (click)="caroselloNext()">
+                    <mat-icon>chevron_right</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- ================================ -->
+        <!-- GRAFICI                          -->
+        <!-- ================================ -->
+        <div class="grafici-row" (cdkObserveContent)="inizializzaGrafici()">
+
+            <mat-card class="grafico-card">
+                <mat-card-header>
+                    <mat-card-title>Albi per Editore</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="chart-container">
+                        <canvas id="chartEditore"></canvas>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="grafico-card">
+                <mat-card-header>
+                    <mat-card-title>Albi per Anno</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="chart-container">
+                        <canvas id="chartAnno"></canvas>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="grafico-card">
+                <mat-card-header>
+                    <mat-card-title>Storie per Stato</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="chart-container">
+                        <canvas id="chartStato"></canvas>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+        </div>
+
+        <!-- ================================ -->
+        <!-- ULTIMI LETTI + DA LEGGERE        -->
+        <!-- ================================ -->
+        <div class="liste-row">
+
+            <mat-card class="lista-card">
+                <mat-card-header>
+                    <mat-card-title>✅ Ultimi letti</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    @if (d.ultimi_letti.length === 0) {
+                        <p class="empty-list">Nessuna lettura registrata.</p>
+                    } @else {
+                        <ul class="lista">
+                            @for (albo of d.ultimi_letti; track albo.id) {
+                                <li class="lista-row">
+                                    @if (albo.filename) {
+                                        <img [src]="getImmagineUrl(albo.filename)"
+                                             class="mini-cover" alt="">
+                                    } @else {
+                                        <div class="mini-cover no-img">
+                                            <mat-icon>image_not_supported</mat-icon>
+                                        </div>
+                                    }
+                                    <div class="lista-info">
+                                        <span class="lista-titolo">
+                                            {{ albo.titolo || 'Albo #' + albo.id }}
+                                            @if (albo.numero) { <small>N°{{ albo.numero }}</small> }
+                                        </span>
+                                        <span class="lista-data">
+                                            {{ albo.data_lettura | date:'dd/MM/yyyy' }}
+                                        </span>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="lista-card">
+                <mat-card-header>
+                    <mat-card-title>🔖 Da leggere</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    @if (d.da_leggere.length === 0) {
+                        <p class="empty-list">Ottimo! Hai letto tutto. 🎉</p>
+                    } @else {
+                        <ul class="lista">
+                            @for (albo of d.da_leggere; track albo.id) {
+                                <li class="lista-row">
+                                    @if (albo.filename) {
+                                        <img [src]="getImmagineUrl(albo.filename)"
+                                             class="mini-cover" alt="">
+                                    } @else {
+                                        <div class="mini-cover no-img">
+                                            <mat-icon>image_not_supported</mat-icon>
+                                        </div>
+                                    }
+                                    <div class="lista-info">
+                                        <span class="lista-titolo">
+                                            {{ albo.titolo || 'Albo #' + albo.id }}
+                                            @if (albo.numero) { <small>N°{{ albo.numero }}</small> }
+                                        </span>
+                                        <span class="lista-sub">
+                                            {{ albo.editore?.nome || '' }}
+                                        </span>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </mat-card-content>
+            </mat-card>
+
+        </div>
+
+        <!-- Trigger inizializzazione grafici -->
+        {{ inizializzaGrafici() }}
+
+    }
+</div>

@@ -59,6 +59,7 @@
 /* L'AREA A DESTRA CHE OCCUPA IL RESTO DELLO SPAZIO */
 .main-wrapper {
     flex: 1;
+    min-width: 0;
     /* Prendi tutto lo spazio orizzontale rimanente */
     display: flex;
     flex-direction: column;
@@ -107,5 +108,6 @@
     /* Prendi tutto lo spazio verticale sotto l'header */
     padding: 30px;
     overflow-y: auto;
+    overflow-x: hidden;
     /* Se la tabella dei fumetti è lunga, scorre solo questa parte! */
 }
