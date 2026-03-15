@@ -23,7 +23,9 @@
             <ng-container matColumnDef="nome">
                 <th mat-header-cell *matHeaderCellDef> Nome </th>
                 <td mat-cell *matCellDef="let storia">
-                    <strong>{{ storia.nome || '-' }}</strong>
+                    <strong class="nome-cliccabile" [routerLink]="['/storie', storia.id]">
+                        {{ storia.nome || '-' }}
+                    </strong>
                 </td>
             </ng-container>
 

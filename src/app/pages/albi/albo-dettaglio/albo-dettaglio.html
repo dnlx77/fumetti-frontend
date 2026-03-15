@@ -123,7 +123,9 @@
                 <ul class="storie-list">
                     @for (storia of albo?.storie; track storia.id) {
                     <li class="storia-row">
-                        <span class="storia-nome">{{ storia.nome }}</span>
+                        <span class="storia-nome nome-cliccabile" [routerLink]="['/storie', storia.id]">
+                            {{ storia.nome }}
+                        </span>
                         @if (storia.stato) {
                         <span class="storia-stato" [ngClass]="'stato-' + storia.stato">
                             {{ storia.stato === 'in_corso' ? 'In Corso' :

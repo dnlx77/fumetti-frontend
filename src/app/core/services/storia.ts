@@ -17,6 +17,11 @@ export class StoriaService {
     return this.http.get<StoriaApiResponse>(`${this.endpoint}?page=${page}`);
   }
 
+  // Dettaglio singola storia
+  getStoria(id: number): Observable<any> {
+    return this.http.get<any>(`${this.endpoint}/${id}`);
+  }
+
   // Crea una nuova storia
   creaStoria(dati: any): Observable<any> {
     return this.http.post(this.endpoint, dati);

@@ -208,6 +208,15 @@
             margin: 0 0 12px;
         }
 
+        .nome-cliccabile {
+            cursor: pointer;
+            color: #3f51b5;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
         .chips-row {
             display: flex;
             flex-wrap: wrap;

@@ -119,6 +119,15 @@
     }
 }
 
+.nome-cliccabile {
+    cursor: pointer;
+    color: #3f51b5;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
 // Paginatore
 .custom-paginator-wrapper {
     display: flex;

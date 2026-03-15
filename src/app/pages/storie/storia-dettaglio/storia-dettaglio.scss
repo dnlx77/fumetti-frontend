@@ -1,0 +1,271 @@
+.dettaglio-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.top-bar {
+    margin-bottom: 20px;
+    button { color: #555; }
+}
+
+.loading-state {
+    text-align: center;
+    padding: 60px;
+    color: #777;
+}
+
+.dettaglio-layout {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+}
+
+// ================================
+// COLONNA SINISTRA
+// ================================
+.colonna-sinistra {
+    flex: 0 0 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    // Badge stato
+    .stato-box {
+        display: flex;
+        justify-content: center;
+
+        .stato-badge {
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            width: 100%;
+            text-align: center;
+
+            &.stato-in_corso       { background: #fff3e0; color: #e65100; }
+            &.stato-autoconclusiva { background: #e8f5e9; color: #2e7d32; }
+            &.stato-finita         { background: #e3f2fd; color: #1565c0; }
+        }
+    }
+
+    // Box letture
+    .letture-box {
+        background: white;
+        border-radius: 10px;
+        padding: 14px 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+
+        .letture-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+
+            .letture-label {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 14px;
+                font-weight: 600;
+                color: #333;
+            }
+
+            .btn-letture {
+                font-size: 12px;
+                height: 30px;
+                line-height: 30px;
+                padding: 0 10px;
+            }
+        }
+
+        .date-lettura-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            li {
+                font-size: 13px;
+                color: #555;
+                padding: 3px 0;
+                border-bottom: 1px solid #f5f5f5;
+                &:last-child { border-bottom: none; }
+            }
+        }
+
+        .non-letto {
+            font-size: 13px;
+            color: #bbb;
+            font-style: italic;
+            margin: 0;
+        }
+    }
+
+    // Box albi in cui compare
+    .albi-box {
+        background: white;
+        border-radius: 10px;
+        padding: 14px 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+
+        .albi-titolo {
+            margin: 0 0 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .albi-paginator {
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           gap: 8px;
+           margin-top: 8px;
+           padding-top: 8px;
+           border-top: 1px solid #f0f0f0;
+        
+           .albi-paginator-info {
+               font-size: 12px;
+               color: #888;
+               min-width: 80px;
+               text-align: center;
+           }
+        
+        }
+        
+        .albi-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            .albo-row {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 6px 0;
+                border-bottom: 1px solid #f5f5f5;
+                cursor: pointer;
+                transition: background 0.2s;
+                border-radius: 4px;
+
+                &:last-child { border-bottom: none; }
+
+                &:hover { background: #f5f5f5; }
+
+                .mini-cover {
+                    width: 32px;
+                    height: 45px;
+                    object-fit: cover;
+                    border-radius: 3px;
+                    flex-shrink: 0;
+                    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+
+                    &.no-img {
+                        background: #eee;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 16px;
+                    }
+                }
+
+                .albo-info {
+                    flex: 1;
+                    min-width: 0;
+                    display: flex;
+                    flex-direction: column;
+
+                    .albo-titolo-testo {
+                        font-size: 13px;
+                        font-weight: 500;
+                        color: #333;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                    .albo-sub {
+                        font-size: 11px;
+                        color: #999;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ================================
+// COLONNA DESTRA
+// ================================
+.colonna-destra {
+    flex: 1;
+    min-width: 0;
+    background: white;
+    border-radius: 12px;
+    padding: 28px 32px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .intestazione {
+        .titolo {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a1a2e;
+            line-height: 1.2;
+        }
+    }
+
+    .sezione {
+        .sezione-titolo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #444;
+            margin: 0 0 12px;
+        }
+
+        .trama-testo {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        // Lista autori con ruolo
+        .autori-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            .autore-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 8px 0;
+                border-bottom: 1px solid #f5f5f5;
+
+                &:last-child { border-bottom: none; }
+
+                .autore-nome {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: #333;
+                }
+
+                .autore-ruolo {
+                    font-size: 12px;
+                    padding: 2px 10px;
+                    border-radius: 10px;
+                    background: #e8eaf6;
+                    color: #3f51b5;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+}

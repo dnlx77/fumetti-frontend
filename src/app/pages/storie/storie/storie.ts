@@ -8,6 +8,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterModule } from '@angular/router';
 
 import { StoriaService } from '../../../core/services/storia';
 import { Storia } from '../../../core/models/storia/storia';
@@ -27,6 +28,7 @@ import { LettureDialog } from '../../../shared/letture-dialog/letture-dialog';
     MatTooltipModule,
     MatChipsModule,
     MatSnackBarModule,
+    RouterModule,
     LettureDialog,
   ],
   templateUrl: './storie.html',
