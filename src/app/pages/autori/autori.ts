@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterModule } from '@angular/router';
 
 import { AutoreService } from '../../core/services/autore';
 import { Autore } from '../../core/models/autore';
@@ -24,6 +25,7 @@ import { ConfermaDialogComponent } from '../../shared/conferma-dialog/conferma-d
     MatIconModule,
     MatTooltipModule,
     MatSnackBarModule,
+    RouterModule,
   ],
   templateUrl: './autori.html',
   styleUrl: './autori.scss'

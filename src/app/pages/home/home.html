@@ -62,7 +62,7 @@
                     <div class="carosello-track"
                          [style.transform]="'translateX(-' + (caroselloIndex() * 160) + 'px)'">
                         @for (albo of d.ultimi_albi; track albo.id) {
-                            <div class="carosello-card" [routerLink]="['/albi']"
+                            <div class="carosello-card" [routerLink]="['/albi', albo.id]"
                                  matTooltip="{{ albo.titolo || 'Albo #' + albo.id }}">
                                 @if (albo.filename) {
                                     <img [src]="getImmagineUrl(albo.filename)"
@@ -144,7 +144,7 @@
                     } @else {
                         <ul class="lista">
                             @for (albo of d.ultimi_letti; track albo.id) {
-                                <li class="lista-row">
+                                <li class="lista-row" [routerLink]="['/albi', albo.id]" style="cursor:pointer">
                                     @if (albo.filename) {
                                         <img [src]="getImmagineUrl(albo.filename)"
                                              class="mini-cover" alt="">
@@ -179,7 +179,7 @@
                     } @else {
                         <ul class="lista">
                             @for (albo of d.da_leggere; track albo.id) {
-                                <li class="lista-row">
+                                <li class="lista-row" [routerLink]="['/albi', albo.id]" style="cursor:pointer">
                                     @if (albo.filename) {
                                         <img [src]="getImmagineUrl(albo.filename)"
                                              class="mini-cover" alt="">

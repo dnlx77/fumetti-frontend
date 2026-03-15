@@ -1,0 +1,117 @@
+<div class="dettaglio-container">
+
+    <div class="top-bar">
+        <button mat-button (click)="tornaAllaLista()">
+            <span>← Torna alla lista</span>
+        </button>
+    </div>
+
+    <div [hidden]="!isLoading()" class="loading-state">
+        <p>Caricamento... ⏳</p>
+    </div>
+
+    <div [hidden]="isLoading() || datiPronti" class="loading-state">
+        <p>Autore non trovato.</p>
+        <button mat-raised-button color="primary" (click)="tornaAllaLista()">
+            <span>Torna alla lista</span>
+        </button>
+    </div>
+
+    <div [hidden]="isLoading() || !datiPronti" class="dettaglio-layout">
+
+        <!-- COLONNA SINISTRA -->
+        <div class="colonna-sinistra">
+
+            <div class="avatar-box">
+                <div class="avatar">
+                    <span>{{ autore?.cognome?.charAt(0) }}{{ autore?.nome?.charAt(0) }}</span>
+                </div>
+            </div>
+
+            <div class="stats-box">
+                <div class="stat">
+                    <span class="stat-numero">{{ totaleStorie }}</span>
+                    <span class="stat-label">{{ totaleStorie === 1 ? 'Storia' : 'Storie' }}</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-numero">{{ totaleAlbi }}</span>
+                    <span class="stat-label">{{ totaleAlbi === 1 ? 'Albo' : 'Albi' }}</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- COLONNA DESTRA -->
+        <div class="colonna-destra">
+
+            <div class="intestazione">
+                <h1 class="titolo">{{ nomeCompleto }}</h1>
+                <p class="pseudonimo" [hidden]="!autore?.pseudonimo">Pseudonimo: {{ autore?.pseudonimo }}</p>
+            </div>
+
+            <!-- Storie -->
+            <mat-divider [hidden]="totaleStorie === 0"></mat-divider>
+            <div class="sezione" [hidden]="totaleStorie === 0">
+                <h3 class="sezione-titolo">📝 <span>Storie</span></h3>
+                <ul class="storie-list">
+                    @for (storia of storieFiltrate; track storia.id) {
+                    <li class="storia-row" [routerLink]="['/storie', storia.id]">
+                        <div class="storia-info">
+                            <span class="storia-nome">{{ storia.nome }}</span>
+                            <span class="storia-stato stato-{{ storia.stato }}">
+                                {{ storia.stato === 'in_corso' ? 'In Corso' :
+                                storia.stato === 'autoconclusiva' ? 'Auto Conclusiva' : 'Finita' }}
+                            </span>
+                        </div>
+                        <span class="storia-ruolo" [hidden]="!storia.pivot?.ruolo_descrizione">
+                            {{ storia.pivot?.ruolo_descrizione }}
+                        </span>
+                    </li>
+                    }
+                </ul>
+                <div class="paginator" [hidden]="pagineTotaliStorie <= 1">
+                    <button mat-icon-button [disabled]="paginaStorie === 0" (click)="paginaStoriePrev()">
+                        <span>‹</span>
+                    </button>
+                    <span class="paginator-info">{{ primaStoria }}-{{ ultimaStoria }} di {{ totalRigheStorie }}</span>
+                    <button mat-icon-button [disabled]="paginaStorie === pagineTotaliStorie - 1"
+                        (click)="paginaStorieNext()">
+                        <span>›</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Albi copertina -->
+            <mat-divider [hidden]="totaleAlbi === 0"></mat-divider>
+            <div class="sezione" [hidden]="totaleAlbi === 0">
+                <h3 class="sezione-titolo">📚 <span>Albi (copertina)</span></h3>
+                <div class="albi-grid">
+                    @for (albo of albiFiltrati; track albo.id) {
+                    <div class="albo-card" [routerLink]="['/albi', albo.id]">
+                        <img [src]="albo.filename ? getImmagineUrl(albo.filename) : ''"
+                            [style.display]="albo.filename ? 'block' : 'none'" class="copertina-grid" alt="">
+                        <div class="copertina-grid no-img" [style.display]="albo.filename ? 'none' : 'flex'">📖</div>
+                        <div class="albo-card-info">
+                            <span class="albo-titolo">{{ albo.titolo || 'Senza titolo' }}</span>
+                            <span class="albo-sub">{{ albo.collana?.nome }} N° {{ albo.numero }}</span>
+                        </div>
+                    </div>
+                    }
+                </div>
+                <div class="paginator" [hidden]="pagineTotaliAlbi <= 1">
+                    <button mat-icon-button [disabled]="paginaAlbi === 0" (click)="paginaAlbiPrev()">
+                        <span>‹</span>
+                    </button>
+                    <span class="paginator-info">{{ primoAlbo }}-{{ ultimoAlbo }} di {{ totaleAlbi }}</span>
+                    <button mat-icon-button [disabled]="paginaAlbi === pagineTotaliAlbi - 1" (click)="paginaAlbiNext()">
+                        <span>›</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

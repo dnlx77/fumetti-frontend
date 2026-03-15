@@ -12,6 +12,7 @@ import { Editori } from './pages/editori/editori';
 import { Collane } from './pages/collane/collane';
 import { Ruoli } from './pages/ruoli/ruoli';
 import { Autori } from './pages/autori/autori';
+import { AutoreDettaglio } from './pages/autori/autore-dettaglio/autore-dettaglio';
 
 export const routes: Routes = [
   // 1. AREA PUBBLICA
@@ -39,6 +40,7 @@ export const routes: Routes = [
       { path: 'collane', component: Collane },
       { path: 'ruoli', component: Ruoli },
       { path: 'autori', component: Autori },
+      { path: 'autori/:id', component: AutoreDettaglio },
     ]
   },
 

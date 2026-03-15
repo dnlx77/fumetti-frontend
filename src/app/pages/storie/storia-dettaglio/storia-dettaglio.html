@@ -112,8 +112,12 @@
                 <h3 class="sezione-titolo">✍️ <span>Autori</span></h3>
                 <ul class="autori-list">
                     @for (autore of storia?.autori; track autore.id) {
-                    <li class="autore-row">
-                        <span class="autore-nome">{{ autore.cognome }} {{ autore.nome }}</span>
+                    <li class="autore-row" [routerLink]="['/autori', autore.id]" style="cursor:pointer">
+                        <span class="autore-nome nome-cliccabile">
+                            {{ autore.cognome }}
+                            @if (autore.pseudonimo) { '{{ autore.pseudonimo }}' }
+                            {{ autore.nome }}
+                        </span>
                         @if (autore.pivot?.ruolo_descrizione) {
                         <span class="autore-ruolo">{{ autore.pivot.ruolo_descrizione }}</span>
                         }

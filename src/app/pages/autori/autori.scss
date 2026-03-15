@@ -45,6 +45,15 @@
         color: #777;
         font-style: italic;
     }
+
+    .nome-cliccabile {
+        cursor: pointer;
+        color: #3f51b5;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 }
 
 .custom-paginator-wrapper {

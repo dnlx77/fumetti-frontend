@@ -221,6 +221,13 @@
                 gap: 10px;
                 padding: 6px 0;
                 border-bottom: 1px solid #f5f5f5;
+                cursor: pointer; 
+                transition: background 0.2s;
+                border-radius: 4px;
+
+                &:hover {
+                    background: #f5f5f5; // ← aggiungere
+                }
 
                 &:last-child { border-bottom: none; }
 

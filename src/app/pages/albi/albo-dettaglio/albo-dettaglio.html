@@ -102,16 +102,13 @@
             <div class="sezione">
                 <h3 class="sezione-titolo">✍️ <span>Autori Copertina</span></h3>
                 <div class="chips-row">
-                    <mat-chip-set>
-                        @for (autore of albo?.autori_copertina; track autore.id) {
-                        <mat-chip>
-                            <span>{{ autore.cognome }} {{ autore.nome }}</span>
-                            @if (autore.pseudonimo) {
-                            <small> ({{ autore.pseudonimo }})</small>
-                            }
-                        </mat-chip>
-                        }
-                    </mat-chip-set>
+                    @for (autore of albo?.autori_copertina; track autore.id) {
+                    <span class="autore-chip" [routerLink]="['/autori', autore.id]">
+                        {{ autore.cognome }}
+                        @if (autore.pseudonimo) { '{{ autore.pseudonimo }}' }
+                        {{ autore.nome }}
+                    </span>
+                    }
                 </div>
             </div>
             }

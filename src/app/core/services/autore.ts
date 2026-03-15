@@ -16,6 +16,10 @@ export class AutoreService {
     return this.http.get<AutoreApiResponse>(`${this.endpoint}?page=${page}`);
   }
 
+  getAutore(id: number): Observable<any> {
+    return this.http.get<any>(`${this.endpoint}/${id}`);
+  }
+
   creaAutore(dati: any): Observable<any> {
     return this.http.post(this.endpoint, dati);
   }
