@@ -1,0 +1,143 @@
+<div class="dettaglio-container">
+
+    <div class="top-bar">
+        <button mat-button (click)="tornaAllaLista()">
+            <span>← Torna alla lista</span>
+        </button>
+    </div>
+
+    <div [hidden]="!isLoading()" class="loading-state">
+        <p>Caricamento... ⏳</p>
+    </div>
+
+    <div [hidden]="isLoading() || datiPronti" class="loading-state">
+        <p>Albo non trovato.</p>
+        <button mat-raised-button color="primary" (click)="tornaAllaLista()">
+            <span>Torna alla lista</span>
+        </button>
+    </div>
+
+    <div [hidden]="isLoading() || !datiPronti" class="dettaglio-layout">
+
+        <!-- COLONNA SINISTRA -->
+        <div class="colonna-sinistra">
+
+            <div class="copertina-wrapper">
+                @if (albo?.filename) {
+                <img [src]="getImmagineUrl(albo.filename)" alt="Copertina" class="copertina">
+                } @else {
+                <div class="no-copertina">
+                    <span>🖼️ Nessuna copertina</span>
+                </div>
+                }
+            </div>
+
+            <div class="letture-box">
+                <div class="letture-header">
+                    <span class="letture-label">
+                        📖
+                        <span>
+                            {{ albo?.date_lettura?.length ?? 0 }}
+                            {{ (albo?.date_lettura?.length ?? 0) === 1 ? 'lettura' : 'letture' }}
+                        </span>
+                    </span>
+                    <button mat-stroked-button color="primary" (click)="apriLetture()" class="btn-letture">
+                        <span>📅 Gestisci</span>
+                    </button>
+                </div>
+                @if (albo?.date_lettura?.length > 0) {
+                <ul class="date-lettura-list">
+                    @for (lettura of albo?.date_lettura; track lettura.data_lettura) {
+                    <li>📅 {{ lettura.data_lettura | date:'dd/MM/yyyy' }}</li>
+                    }
+                </ul>
+                } @else {
+                <p class="non-letto">Non ancora letto</p>
+                }
+            </div>
+
+        </div>
+
+        <!-- COLONNA DESTRA -->
+        <div class="colonna-destra">
+
+            <div class="intestazione">
+                <h1 class="titolo">{{ albo?.titolo || 'Titolo non disponibile' }}</h1>
+                <div class="sottotitolo">
+                    @if (albo?.collana?.nome) {
+                    <span class="collana">{{ albo?.collana?.nome }}</span>
+                    }
+                    @if (albo?.numero) {
+                    <span class="numero">N° {{ albo?.numero }}</span>
+                    }
+                    @if (albo?.editore?.nome) {
+                    <span class="editore">{{ albo?.editore?.nome }}</span>
+                    }
+                </div>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div class="dati-griglia">
+                <div class="dato">
+                    <span class="dato-label">Pubblicazione</span>
+                    <span class="dato-valore">{{ albo?.data_pubblicazione | date:'dd/MM/yyyy' }}</span>
+                </div>
+                <div class="dato">
+                    <span class="dato-label">Pagine</span>
+                    <span class="dato-valore">{{ albo?.num_pagine || '-' }}</span>
+                </div>
+                <div class="dato">
+                    <span class="dato-label">Prezzo</span>
+                    <span class="dato-valore">{{ getPrezzoFormattato(albo) }}</span>
+                </div>
+                <div class="dato dato-barcode">
+                    <span class="dato-label">Barcode</span>
+                    <span class="dato-valore">{{ albo?.barcode || '-' }}</span>
+                </div>
+            </div>
+
+            @if (albo?.autori_copertina?.length > 0) {
+            <mat-divider></mat-divider>
+            <div class="sezione">
+                <h3 class="sezione-titolo">✍️ <span>Autori Copertina</span></h3>
+                <div class="chips-row">
+                    <mat-chip-set>
+                        @for (autore of albo?.autori_copertina; track autore.id) {
+                        <mat-chip>
+                            <span>{{ autore.cognome }} {{ autore.nome }}</span>
+                            @if (autore.pseudonimo) {
+                            <small> ({{ autore.pseudonimo }})</small>
+                            }
+                        </mat-chip>
+                        }
+                    </mat-chip-set>
+                </div>
+            </div>
+            }
+
+            @if (albo?.storie?.length > 0) {
+            <mat-divider></mat-divider>
+            <div class="sezione">
+                <h3 class="sezione-titolo">📚 <span>Storie contenute</span></h3>
+                <ul class="storie-list">
+                    @for (storia of albo?.storie; track storia.id) {
+                    <li class="storia-row">
+                        <span class="storia-nome">{{ storia.nome }}</span>
+                        @if (storia.stato) {
+                        <span class="storia-stato" [ngClass]="'stato-' + storia.stato">
+                            {{ storia.stato === 'in_corso' ? 'In Corso' :
+                            storia.stato === 'autoconclusiva' ? 'Auto Conclusiva' : 'Finita' }}
+                        </span>
+                        }
+                    </li>
+                    }
+                </ul>
+            </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

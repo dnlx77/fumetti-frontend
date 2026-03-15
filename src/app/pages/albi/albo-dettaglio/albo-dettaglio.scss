@@ -1,0 +1,263 @@
+.dettaglio-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.top-bar {
+    margin-bottom: 20px;
+
+    button {
+        color: #555;
+    }
+}
+
+.loading-state {
+    text-align: center;
+    padding: 60px;
+    color: #777;
+}
+
+.dettaglio-layout {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+}
+
+// COLONNA SINISTRA
+.colonna-sinistra {
+    flex: 0 0 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .copertina-wrapper {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+
+        .copertina {
+            width: 100%;
+            display: block;
+        }
+
+        .no-copertina {
+            width: 100%;
+            height: 360px;
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #bbb;
+            font-size: 13px;
+        }
+    }
+
+    .letture-box {
+        background: white;
+        border-radius: 10px;
+        padding: 14px 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+
+        .letture-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+
+            .letture-label {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 14px;
+                font-weight: 600;
+                color: #333;
+            }
+
+            .btn-letture {
+                font-size: 12px;
+                height: 30px;
+                line-height: 30px;
+                padding: 0 10px;
+            }
+        }
+
+        .date-lettura-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            li {
+                font-size: 13px;
+                color: #555;
+                padding: 3px 0;
+                border-bottom: 1px solid #f5f5f5;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+        }
+
+        .non-letto {
+            font-size: 13px;
+            color: #bbb;
+            font-style: italic;
+            margin: 0;
+        }
+    }
+}
+
+// COLONNA DESTRA
+.colonna-destra {
+    flex: 1;
+    min-width: 0;
+    background: white;
+    border-radius: 12px;
+    padding: 28px 32px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .intestazione {
+        .titolo {
+            margin: 0 0 10px;
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a1a2e;
+            line-height: 1.2;
+        }
+
+        .sottotitolo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+
+            .collana {
+                background: #e8eaf6;
+                color: #3f51b5;
+                padding: 3px 10px;
+                border-radius: 12px;
+                font-size: 13px;
+                font-weight: 500;
+            }
+
+            .numero {
+                background: #f5f5f5;
+                color: #555;
+                padding: 3px 10px;
+                border-radius: 12px;
+                font-size: 13px;
+            }
+
+            .editore {
+                background: #fff3e0;
+                color: #e65100;
+                padding: 3px 10px;
+                border-radius: 12px;
+                font-size: 13px;
+                font-weight: 500;
+            }
+        }
+    }
+
+    .dati-griglia {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+
+        .dato {
+            flex: 1 1 150px;
+            display: flex; // ← aggiungere
+            flex-direction: column; // ← aggiungere
+            gap: 4px; // ← aggiungere
+
+            // Il barcode è più lungo, occupa tutta la riga
+            &.dato-barcode {
+                flex: 1 1 100%; // ← occupa tutta la larghezza
+                min-width: 0;
+            }
+
+            .dato-label {
+                display: block;
+                font-size: 11px;
+                color: #999;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                margin-bottom: 4px;
+            }
+
+            .dato-valore {
+                display: block;
+                font-size: 15px;
+                font-weight: 500;
+                color: #333;
+            }
+        }
+    }
+
+    .sezione {
+        .sezione-titolo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #444;
+            margin: 0 0 12px;
+        }
+
+        .chips-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .storie-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            .storia-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 8px 0;
+                border-bottom: 1px solid #f5f5f5;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                .storia-nome {
+                    font-size: 14px;
+                    color: #333;
+                    font-weight: 500;
+                }
+
+                .storia-stato {
+                    font-size: 11px;
+                    padding: 2px 8px;
+                    border-radius: 10px;
+                    font-weight: 500;
+
+                    &.stato-in_corso {
+                        background: #fff3e0;
+                        color: #e65100;
+                    }
+
+                    &.stato-autoconclusiva {
+                        background: #e8f5e9;
+                        color: #2e7d32;
+                    }
+
+                    &.stato-finita {
+                        background: #e3f2fd;
+                        color: #1565c0;
+                    }
+                }
+            }
+        }
+    }
+}

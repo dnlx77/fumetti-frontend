@@ -5,6 +5,7 @@ import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
 import { Home } from './pages/home/home';
 import { Albi } from './pages/albi/albi';
+import { AlboDettaglio } from './pages/albi/albo-dettaglio/albo-dettaglio';
 import { Storie } from './pages/storie/storie/storie';
 import { Editori } from './pages/editori/editori';
 import { Collane } from './pages/collane/collane';
@@ -30,6 +31,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: Home },
       { path: 'albi', component: Albi },
+      { path: 'albi/:id', component: AlboDettaglio },  // ← dettaglio albo
       { path: 'storie', component: Storie },
       { path: 'editori', component: Editori },
       { path: 'collane', component: Collane },

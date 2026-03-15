@@ -19,9 +19,10 @@
                 <th mat-header-cell *matHeaderCellDef> Copertina </th>
                 <td mat-cell *matCellDef="let albo">
                     @if (albo.filename) {
-                    <img [src]="getImmagineUrl(albo.filename)" alt="Copertina di {{ albo.titolo }}" class="cover-img">
+                    <img [src]="getImmagineUrl(albo.filename)" alt="Copertina di {{ albo.titolo }}"
+                        class="cover-img cover-cliccabile" [routerLink]="['/albi', albo.id]" matTooltip="Vedi dettaglio">
                     } @else {
-                    <div class="no-cover">N/D</div>
+                    <div class="no-cover cover-cliccabile" [routerLink]="['/albi', albo.id]" matTooltip="Vedi dettaglio">N/D</div>
                     }
                 </td>
             </ng-container>

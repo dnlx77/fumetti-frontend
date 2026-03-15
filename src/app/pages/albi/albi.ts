@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterModule } from '@angular/router';
 
 import { AlboService } from '../../core/services/albo';
 import { Albo } from '../../core/models/albo';
@@ -26,6 +27,7 @@ import { LettureDialog } from '../../shared/letture-dialog/letture-dialog';
     MatIconModule,
     MatTooltipModule,
     MatSnackBarModule,
+    RouterModule,
     LettureDialog,
   ],
   templateUrl: './albi.html',
