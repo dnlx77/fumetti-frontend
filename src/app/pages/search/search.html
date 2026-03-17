@@ -1,0 +1,229 @@
+<div class="search-container">
+
+    <h2 class="page-title">🔍 Ricerca</h2>
+
+    <div class="search-bar">
+        <mat-form-field appearance="outline" class="query-field">
+            <mat-label>Cerca...</mat-label>
+            <input matInput [(ngModel)]="q" (input)="onInput()" placeholder="Inserisci il testo da cercare">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="tipo-field">
+            <mat-label>Tipo ricerca</mat-label>
+            <mat-select [(ngModel)]="tipo" (ngModelChange)="onFiltroChange()">
+                @for (t of tipiRicerca; track t.value) {
+                <mat-option [value]="t.value">{{ t.label }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <mat-tab-group animationDuration="200ms">
+
+        <!-- ================================ -->
+        <!-- TAB ALBI                         -->
+        <!-- ================================ -->
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <span>📚 Albi</span>
+                <span class="tab-count" [hidden]="totaleAlbi === 0">{{ totaleAlbi }}</span>
+            </ng-template>
+
+            <div class="tab-content">
+                <div class="filtri-row">
+                    <mat-form-field appearance="outline" class="filtro-field">
+                        <mat-label>Cerca per</mat-label>
+                        <mat-select [(ngModel)]="campoAlbi" (ngModelChange)="onFiltroChange()">
+                            @for (c of campiAlbi; track c.value) {
+                            <mat-option [value]="c.value">{{ c.label }}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="filtro-field">
+                        <mat-label>Lettura</mat-label>
+                        <mat-select [(ngModel)]="lettoAlbi" (ngModelChange)="onFiltroChange()">
+                            <mat-option value="tutti">Tutti</mat-option>
+                            <mat-option value="1">Letti</mat-option>
+                            <mat-option value="0">Da leggere</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div [hidden]="isLoadingAlbi">
+                    <p class="nessun-risultato" [hidden]="risultatiAlbi.length > 0 || !q">
+                        Nessun albo trovato.
+                    </p>
+                    <div class="risultati-albi">
+                        @for (albo of risultatiAlbi; track albo.id) {
+                        <div class="albo-row" [routerLink]="['/albi', albo.id]">
+                            <img [src]="albo.filename ? getImmagineUrl(albo.filename) : ''"
+                                [style.display]="albo.filename ? 'block' : 'none'" class="cover" alt="">
+                            <div class="cover no-cover-img" [style.display]="albo.filename ? 'none' : 'flex'">📖</div>
+                            <div class="albo-info">
+                                <span class="albo-titolo">{{ albo.titolo || 'Senza titolo' }}</span>
+                                <span class="albo-sub">
+                                    {{ albo.collana?.nome }}
+                                    <span [hidden]="!albo.numero">N° {{ albo.numero }}</span>
+                                    · {{ albo.editore?.nome }}
+                                </span>
+                                <span class="albo-data" [hidden]="!albo.data_pubblicazione">
+                                    {{ albo.data_pubblicazione | date:'MM/yyyy' }}
+                                </span>
+                            </div>
+                            <div class="azioni" (click)="$event.stopPropagation()">
+                                <button mat-icon-button color="primary" matTooltip="Modifica"
+                                    (click)="modificaAlbo(albo, $event)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" matTooltip="Elimina"
+                                    (click)="eliminaAlbo(albo, $event)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                    <mat-paginator [hidden]="totaleAlbi <= perPaginaAlbi" [length]="totaleAlbi"
+                        [pageSize]="perPaginaAlbi" [pageIndex]="paginaAlbi" [hidePageSize]="true"
+                        (page)="cambiaPaginaAlbi($event)">
+                    </mat-paginator>
+                </div>
+                <p [hidden]="!isLoadingAlbi" class="loading">Ricerca in corso... ⏳</p>
+            </div>
+        </mat-tab>
+
+        <!-- ================================ -->
+        <!-- TAB STORIE                       -->
+        <!-- ================================ -->
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <span>📝 Storie</span>
+                <span class="tab-count" [hidden]="totaleStorie === 0">{{ totaleStorie }}</span>
+            </ng-template>
+
+            <div class="tab-content">
+                <div class="filtri-row">
+                    <mat-form-field appearance="outline" class="filtro-field">
+                        <mat-label>Cerca per</mat-label>
+                        <mat-select [(ngModel)]="campoStorie" (ngModelChange)="onFiltroChange()">
+                            @for (c of campiStorie; track c.value) {
+                            <mat-option [value]="c.value">{{ c.label }}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="filtro-field" [hidden]="!isStatoStoria">
+                        <mat-label>Stato</mat-label>
+                        <mat-select [(ngModel)]="q" (ngModelChange)="onFiltroChange()">
+                            @for (s of statiStoria; track s.value) {
+                            <mat-option [value]="s.value">{{ s.label }}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="filtro-field">
+                        <mat-label>Lettura</mat-label>
+                        <mat-select [(ngModel)]="lettoStorie" (ngModelChange)="onFiltroChange()">
+                            <mat-option value="tutti">Tutte</mat-option>
+                            <mat-option value="1">Lette</mat-option>
+                            <mat-option value="0">Da leggere</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div [hidden]="isLoadingStorie">
+                    <p class="nessun-risultato" [hidden]="risultatiStorie.length > 0 || !q">
+                        Nessuna storia trovata.
+                    </p>
+                    <ul class="risultati-storie">
+                        @for (storia of risultatiStorie; track storia.id) {
+                        <li class="storia-row" [routerLink]="['/storie', storia.id]">
+                            <div class="storia-info">
+                                <span class="storia-nome">{{ storia.nome }}</span>
+                                <span class="storia-trama" [hidden]="!storia.trama">{{ storia.trama }}</span>
+                            </div>
+                            <span class="storia-stato stato-{{ storia.stato }}">
+                                {{ etichettaStato(storia.stato) }}
+                            </span>
+                            <div class="azioni" (click)="$event.stopPropagation()">
+                                <button mat-icon-button color="primary" matTooltip="Modifica"
+                                    (click)="modificaStoria(storia, $event)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" matTooltip="Elimina"
+                                    (click)="eliminaStoria(storia, $event)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </li> }
+                    </ul>
+                    <mat-paginator [hidden]="totaleStorie <= perPaginaStorie" [length]="totaleStorie"
+                        [pageSize]="perPaginaStorie" [pageIndex]="paginaStorie" [hidePageSize]="true"
+                        (page)="cambiaPaginaStorie($event)">
+                    </mat-paginator>
+                </div>
+                <p [hidden]="!isLoadingStorie" class="loading">Ricerca in corso... ⏳</p>
+            </div>
+        </mat-tab>
+
+        <!-- ================================ -->
+        <!-- TAB AUTORI                       -->
+        <!-- ================================ -->
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <span>✍️ Autori</span>
+                <span class="tab-count" [hidden]="totaleAutori === 0">{{ totaleAutori }}</span>
+            </ng-template>
+
+            <div class="tab-content">
+                <div class="filtri-row">
+                    <mat-form-field appearance="outline" class="filtro-field">
+                        <mat-label>Cerca per</mat-label>
+                        <mat-select [(ngModel)]="campoAutori" (ngModelChange)="onFiltroChange()">
+                            @for (c of campiAutori; track c.value) {
+                            <mat-option [value]="c.value">{{ c.label }}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div [hidden]="isLoadingAutori">
+                    <p class="nessun-risultato" [hidden]="risultatiAutori.length > 0 || !q">
+                        Nessun autore trovato.
+                    </p>
+                    <ul class="risultati-autori">
+                        @for (autore of risultatiAutori; track autore.id) {
+                        <li class="autore-row" [routerLink]="['/autori', autore.id]">
+                            <div class="autore-avatar">
+                                {{ autore.cognome?.charAt(0) }}{{ autore.nome?.charAt(0) }}
+                            </div>
+                            <div class="autore-info">
+                                <span class="autore-nome">{{ autore.cognome }} {{ autore.nome }}</span>
+                                <span class="autore-pseudo" [hidden]="!autore.pseudonimo">
+                                    "{{ autore.pseudonimo }}"
+                                </span>
+                            </div>
+                            <div class="azioni" (click)="$event.stopPropagation()">
+                                <button mat-icon-button color="primary" matTooltip="Modifica"
+                                    (click)="modificaAutore(autore, $event)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="warn" matTooltip="Elimina"
+                                    (click)="eliminaAutore(autore, $event)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </li>
+                        }
+                    </ul>
+                    <mat-paginator [hidden]="totaleAutori <= perPaginaAutori" [length]="totaleAutori"
+                        [pageSize]="perPaginaAutori" [pageIndex]="paginaAutori" [hidePageSize]="true"
+                        (page)="cambiaPaginaAutori($event)">
+                    </mat-paginator>
+                </div>
+                <p [hidden]="!isLoadingAutori" class="loading">Ricerca in corso... ⏳</p>
+            </div>
+        </mat-tab>
+
+    </mat-tab-group>
+
+</div>

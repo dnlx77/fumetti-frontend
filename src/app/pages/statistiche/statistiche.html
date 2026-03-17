@@ -100,10 +100,11 @@
         <div class="heatmap-wrapper">
             <div class="heatmap-label">📚 Albi letti</div>
             <div class="heatmap-grid">
-                <div *ngFor="let giorno of buildHeatmap(heatmapAlbiDati)"
-                     class="heatmap-cella livello-{{ giorno.livello }}"
-                     [title]="giorno.data + ': ' + giorno.totale + ' letture'">
+                @for (giorno of buildHeatmap(heatmapAlbiDati); track giorno.data) {
+                <div class="heatmap-cella livello-{{ giorno.livello }}"
+                    [title]="giorno.data + ': ' + giorno.totale + ' letture'">
                 </div>
+                }
             </div>
             <div class="heatmap-legenda">
                 <span>Meno</span>
@@ -120,10 +121,11 @@
         <div class="heatmap-wrapper">
             <div class="heatmap-label">📝 Storie lette</div>
             <div class="heatmap-grid">
-                <div *ngFor="let giorno of buildHeatmap(heatmapStorieDati)"
-                     class="heatmap-cella livello-{{ giorno.livello }}"
-                     [title]="giorno.data + ': ' + giorno.totale + ' letture'">
+                @for (giorno of buildHeatmap(heatmapStorieDati); track giorno.data) {
+                <div class="heatmap-cella livello-{{ giorno.livello }}"
+                    [title]="giorno.data + ': ' + giorno.totale + ' letture'">
                 </div>
+                }
             </div>
             <div class="heatmap-legenda">
                 <span>Meno</span>
@@ -202,7 +204,8 @@
                 <div class="curiosita-info">
                     <span class="curiosita-titolo">Albo più vecchio</span>
                     <span class="curiosita-valore">{{ dati?.curiosita?.albo_piu_vecchio?.titolo || 'N/D' }}</span>
-                    <span class="curiosita-sub">{{ dati?.curiosita?.albo_piu_vecchio?.data_pubblicazione | date:'dd/MM/yyyy' }}</span>
+                    <span class="curiosita-sub">{{ dati?.curiosita?.albo_piu_vecchio?.data_pubblicazione |
+                        date:'dd/MM/yyyy' }}</span>
                 </div>
             </div>
 
@@ -211,7 +214,8 @@
                 <div class="curiosita-info">
                     <span class="curiosita-titolo">Albo più recente</span>
                     <span class="curiosita-valore">{{ dati?.curiosita?.albo_piu_recente?.titolo || 'N/D' }}</span>
-                    <span class="curiosita-sub">{{ dati?.curiosita?.albo_piu_recente?.data_pubblicazione | date:'dd/MM/yyyy' }}</span>
+                    <span class="curiosita-sub">{{ dati?.curiosita?.albo_piu_recente?.data_pubblicazione |
+                        date:'dd/MM/yyyy' }}</span>
                 </div>
             </div>
 

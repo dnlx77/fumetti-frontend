@@ -14,6 +14,7 @@ import { Ruoli } from './pages/ruoli/ruoli';
 import { Autori } from './pages/autori/autori';
 import { AutoreDettaglio } from './pages/autori/autore-dettaglio/autore-dettaglio';
 import { Statistiche } from './pages/statistiche/statistiche';
+import { Search } from './pages/search/search';
 
 export const routes: Routes = [
   // 1. AREA PUBBLICA
@@ -43,6 +44,7 @@ export const routes: Routes = [
       { path: 'autori', component: Autori },
       { path: 'autori/:id', component: AutoreDettaglio },
       { path: 'statistiche', component: Statistiche },
+      { path: 'search', component: Search },
     ]
   },
 
