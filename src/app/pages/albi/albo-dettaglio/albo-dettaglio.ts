@@ -79,6 +79,7 @@ export class AlboDettaglio implements OnInit {
 
     const dialogRef = this.dialog.open(LettureDialog, {
       width: '450px',
+      maxWidth: '95vw',
       data: {
         tipo: 'albo',
         id: this._alboData.id,

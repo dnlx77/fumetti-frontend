@@ -79,3 +79,65 @@ mat-dialog-content {
         }
     }
 }
+
+// ================================
+// RESPONSIVE — mobile (768px)
+// ================================
+@media (max-width: 768px) {
+
+    mat-dialog-content {
+        min-width: unset; // ← rimuove il min-width fisso
+        width: 100%;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 0;
+
+        .stato-width {
+            flex: none;
+            width: 100%;
+        }
+
+        .trama-width {
+            flex: none;
+            width: 100%;
+        }
+    }
+
+    .autori-section {
+        .riga-autore-ruolo {
+            flex-wrap: wrap;
+
+            .autore-field {
+                width: 100%;
+                flex: none;
+            }
+
+            .ruolo-field {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+    }
+}
+
+// ================================
+// RESPONSIVE — mobile piccolo (400px)
+// ================================
+@media (max-width: 400px) {
+
+    mat-dialog-content {
+        padding: 8px !important;
+    }
+
+    .autori-section {
+        padding: 10px;
+
+        .riga-autore-ruolo {
+            .ruolo-field {
+                min-width: 100px;
+            }
+        }
+    }
+}

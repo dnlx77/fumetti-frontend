@@ -100,6 +100,7 @@ export class GenericList implements OnInit {
   apriNuovo() {
     const dialogRef = this.dialog.open(GenericFormDialog, {
       width: '450px',
+      maxWidth: '95vw',
       disableClose: true,
       data: {
         endpoint: this.config.endpoint,
@@ -119,6 +120,7 @@ export class GenericList implements OnInit {
   apriModifica(record: any) {
     const dialogRef = this.dialog.open(GenericFormDialog, {
       width: '450px',
+      maxWidth: '95vw',
       disableClose: true,
       data: {
         endpoint: this.config.endpoint,

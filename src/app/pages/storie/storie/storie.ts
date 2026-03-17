@@ -96,6 +96,7 @@ export class Storie implements OnInit {
   apriNuovaStoria() {
     const dialogRef = this.dialog.open(StoriaFormDialog, {
       width: '700px',
+      maxWidth: '95vw',
       disableClose: true,
       data: null
     });
@@ -111,6 +112,7 @@ export class Storie implements OnInit {
   apriModifica(storia: Storia) {
     const dialogRef = this.dialog.open(StoriaFormDialog, {
       width: '700px',
+      maxWidth: '95vw',
       disableClose: true,
       data: { storia }
     });
@@ -160,6 +162,7 @@ export class Storie implements OnInit {
   apriLetture(albo: any): void {
     const dialogRef = this.dialog.open(LettureDialog, {
         width: '450px',
+        maxWidth: '95vw',
         data: {
             tipo: 'storia',
             id: albo.id,

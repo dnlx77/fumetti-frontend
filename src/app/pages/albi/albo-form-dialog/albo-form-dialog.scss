@@ -93,3 +93,46 @@ mat-dialog-content {
         font-size: 13px;
     }
 }
+
+// ================================
+// RESPONSIVE — mobile (768px)
+// ================================
+@media (max-width: 768px) {
+
+    .row {
+        flex-direction: column; // campi in colonna su mobile
+        gap: 0;
+
+        .half-width,
+        .third-width {
+            width: 100%;
+            flex: none;
+        }
+    }
+
+    .align-center {
+        align-items: flex-start;
+    }
+}
+
+// ================================
+// RESPONSIVE — mobile piccolo (400px)
+// ================================
+@media (max-width: 400px) {
+
+    mat-dialog-content {
+        padding: 8px !important;
+    }
+
+    .form-container {
+        gap: 0;
+    }
+
+    .file-upload-container {
+        padding: 10px;
+
+        input[type="file"] {
+            font-size: 12px;
+        }
+    }
+}

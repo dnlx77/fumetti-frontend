@@ -164,3 +164,57 @@
         }
     }
 }
+
+// ================================
+// RESPONSIVE — tablet/mobile
+// ================================
+@media (max-width: 768px) {
+
+    .table-container {
+        overflow-x: auto; // tabella scrollabile orizzontalmente
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .custom-paginator-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        padding: 8px 12px;
+
+        .jump-to-page {
+            border-left: none;
+            padding-left: 0;
+            border-top: 1px solid #ddd;
+            padding-top: 8px;
+            width: 100%;
+        }
+    }
+}
+
+@media (max-width: 400px) {
+
+    .table-container {
+        border-radius: 0;
+
+        td.mat-cell,
+        th.mat-header-cell {
+            padding: 4px 8px;
+            font-size: 13px;
+        }
+    }
+}
+
+
+@media (max-width: 400px) {
+    .albi-container .albi-header {
+        h2 {
+            font-size: 18px;
+        }
+
+        button span {
+            display: none;
+        }
+
+        // nascondi testo bottone, mostra solo icona
+    }
+}

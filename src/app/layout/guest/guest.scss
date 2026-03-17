@@ -27,3 +27,33 @@
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     /* Una bella ombra per staccarlo dallo sfondo */
 }
+
+// ================================
+// RESPONSIVE — tablet (768px)
+// ================================
+@media (max-width: 768px) {
+
+    .guest-wrapper {
+        padding: 20px; // margine laterale su tablet
+    }
+
+    .guest-box {
+        padding: 32px 28px;
+    }
+}
+
+// ================================
+// RESPONSIVE — mobile piccolo (400px)
+// ================================
+@media (max-width: 400px) {
+
+    .guest-wrapper {
+        align-items: flex-start;
+        padding: 20px 16px;
+    }
+
+    .guest-box {
+        padding: 28px 20px;
+        border-radius: 8px;
+    }
+}

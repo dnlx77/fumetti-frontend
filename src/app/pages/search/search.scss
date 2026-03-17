@@ -302,3 +302,55 @@
 .autore-row:hover .azioni {
     opacity: 1;
 }
+
+// ================================
+// RESPONSIVE — tablet (768px)
+// ================================
+@media (max-width: 768px) {
+
+    .search-bar {
+        flex-direction: column;
+        gap: 0;
+
+        .tipo-field {
+            flex: none;
+            width: 100%;
+        }
+    }
+
+    .filtri-row {
+        .filtro-field {
+            flex: 1;
+            min-width: 140px;
+        }
+    }
+
+    // Su mobile i bottoni azioni sono sempre visibili
+    .azioni {
+        opacity: 1;
+    }
+}
+
+// ================================
+// RESPONSIVE — mobile piccolo (400px)
+// ================================
+@media (max-width: 400px) {
+
+    .page-title {
+        font-size: 20px;
+    }
+
+    .filtri-row {
+        .filtro-field {
+            min-width: 100%; // ogni filtro su riga propria
+        }
+    }
+
+    .storia-row {
+        flex-wrap: wrap;
+
+        .storia-stato {
+            margin-top: 4px;
+        }
+    }
+}

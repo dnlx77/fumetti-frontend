@@ -275,3 +275,37 @@
         }
     }
 }
+
+// ================================
+// RESPONSIVE — tablet (768px)
+// ================================
+@media (max-width: 768px) {
+
+    .dettaglio-layout {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .colonna-sinistra {
+        flex: none;
+        width: 100%;
+    }
+
+    .colonna-destra {
+        padding: 20px;
+    }
+}
+
+// ================================
+// RESPONSIVE — mobile piccolo (400px)
+// ================================
+@media (max-width: 400px) {
+
+    .colonna-destra {
+        padding: 14px;
+
+        .intestazione .titolo {
+            font-size: 20px;
+        }
+    }
+}

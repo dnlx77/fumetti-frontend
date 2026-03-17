@@ -216,6 +216,7 @@ export class Search implements OnInit, OnDestroy {
     event.stopPropagation();
     const ref = this.dialog.open(AlboFormDialog, {
       width: '700px',
+      maxWidth: '95vw',
       data: { albo }
     });
     ref.afterClosed().subscribe(result => {
@@ -227,6 +228,7 @@ export class Search implements OnInit, OnDestroy {
     event.stopPropagation();
     const ref = this.dialog.open(StoriaFormDialog, {
       width: '700px',
+      maxWidth: '95vw',
       data: { storia }
     });
     ref.afterClosed().subscribe(result => {

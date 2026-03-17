@@ -103,6 +103,7 @@ export class Albi implements OnInit {
   apriModifica(albo: Albo): void {
     const dialogRef = this.dialog.open(AlboFormDialog, {
       width: '700px',
+      maxWidth: '95w',
       disableClose: true, // L'utente deve usare Annulla, non cliccare fuori
       data: { albo }      // Questo è il dato che il dialog riceve via MAT_DIALOG_DATA
     });
@@ -152,6 +153,7 @@ export class Albi implements OnInit {
   apriNuovoAlbo(): void {
     const dialogRef = this.dialog.open(AlboFormDialog, {
       width: '700px',
+      maxWidth: '95vw',
       disableClose: true,
       data: null // Nessun albo passato = modalità crea
     });
@@ -167,6 +169,7 @@ export class Albi implements OnInit {
   apriLetture(albo: any): void {
     const dialogRef = this.dialog.open(LettureDialog, {
         width: '450px',
+        maxWidth: '95vw',
         data: {
             tipo: 'albo',
             id: albo.id,

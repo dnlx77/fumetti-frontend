@@ -296,3 +296,58 @@
         }
     }
 }
+
+// ================================
+// RESPONSIVE — tablet (768px)
+// ================================
+@media (max-width: 768px) {
+
+    .dettaglio-layout {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .colonna-sinistra {
+        flex: none;
+        width: 100%;
+
+        .copertina-wrapper {
+            max-width: 320px;
+            margin: 0 auto;
+        }
+    }
+
+    .colonna-destra {
+        padding: 20px;
+    }
+}
+
+// ================================
+// RESPONSIVE — mobile piccolo (400px)
+// ================================
+@media (max-width: 400px) {
+
+    .colonna-destra {
+        padding: 14px;
+
+        .intestazione {
+            .titolo {
+                font-size: 20px;
+            }
+        }
+
+        .dati-griglia {
+            gap: 16px;
+
+            .dato {
+                flex: 1 1 120px;
+            }
+        }
+    }
+
+    .colonna-sinistra {
+        .copertina-wrapper {
+            max-width: 100%;
+        }
+    }
+}

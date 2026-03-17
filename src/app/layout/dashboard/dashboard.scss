@@ -1,21 +1,24 @@
-/* Il contenitore che avvolge tutto lo schermo */
+// ================================
+// LAYOUT BASE (desktop)
+// ================================
 .dashboard-layout {
     display: flex;
-    /* Mette la sidebar e il main-wrapper uno di fianco all'altro */
     height: 100vh;
-    /* Alto esattamente 100% dello schermo */
     overflow: hidden;
-    /* Nasconde le barre di scorrimento generali */
 }
 
-/* LA BARRA LATERALE A SINISTRA */
+// ================================
+// SIDEBAR
+// ================================
 .sidebar {
     width: 260px;
     background-color: #1a252f;
-    /* Un blu notte molto elegante */
     color: white;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
+    z-index: 100;
+    transition: transform 0.3s ease;
 
     .logo {
         padding: 20px;
@@ -23,13 +26,11 @@
         font-weight: bold;
         text-align: center;
         background-color: #121a21;
-        /* Leggermente più scuro per staccarlo */
         border-bottom: 1px solid #2c3e50;
     }
 
     .menu ul {
         list-style: none;
-        /* Toglie i pallini */
         padding: 0;
         margin: 0;
 
@@ -38,47 +39,40 @@
             font-size: 16px;
             cursor: pointer;
             transition: background 0.2s;
-            /* Effetto morbido al passaggio del mouse */
 
-            &:hover {
-                background-color: #2c3e50;
-            }
+            &:hover { background-color: #2c3e50; }
 
-            /* LA NUOVA REGOLA: Quando siamo su questa pagina, il bottone rimane acceso! */
             &.active {
                 background-color: #3f51b5;
-                /* Il blu primario di Material */
                 border-left: 4px solid white;
-                /* Una bella barretta bianca a sinistra */
                 font-weight: bold;
             }
         }
     }
 }
 
-/* L'AREA A DESTRA CHE OCCUPA IL RESTO DELLO SPAZIO */
+// ================================
+// MAIN WRAPPER
+// ================================
 .main-wrapper {
     flex: 1;
     min-width: 0;
-    /* Prendi tutto lo spazio orizzontale rimanente */
     display: flex;
     flex-direction: column;
-    /* Mette l'header SOPRA e i contenuti SOTTO */
     background-color: #f4f6f9;
-    /* Lo stesso grigio che avevamo messo nel body */
 }
 
-/* LA BARRA IN ALTO */
+// ================================
+// TOPBAR
+// ================================
 .topbar {
     height: 65px;
     background-color: white;
     display: flex;
     justify-content: space-between;
-    /* Mette il titolo a sinistra e il bottone a destra */
     align-items: center;
     padding: 0 30px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    /* Un'ombra leggerissima in basso */
     z-index: 10;
 
     .page-title {
@@ -91,23 +85,119 @@
         background: transparent;
         border: none;
         color: #e74c3c;
-        /* Un rosso per far capire che è un'azione distruttiva */
         font-weight: bold;
         cursor: pointer;
         font-size: 16px;
 
-        &:hover {
-            text-decoration: underline;
+        &:hover { text-decoration: underline; }
+    }
+
+    // Hamburger nascosto su desktop
+    .hamburger-btn {
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 28px;
+        height: 20px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        flex-shrink: 0;
+
+        span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background: #333;
+            border-radius: 3px;
+            transition: all 0.3s ease;
         }
     }
 }
 
-/* L'AREA CENTRALE DOVE ANDRANNO I FUMETTI */
+// ================================
+// CONTENT AREA
+// ================================
 .content-area {
     flex: 1;
-    /* Prendi tutto lo spazio verticale sotto l'header */
     padding: 30px;
     overflow-y: auto;
     overflow-x: hidden;
-    /* Se la tabella dei fumetti è lunga, scorre solo questa parte! */
+}
+
+// ================================
+// OVERLAY (mobile)
+// ================================
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+}
+
+// ================================
+// RESPONSIVE — tablet (768px)
+// ================================
+@media (max-width: 768px) {
+
+    .topbar {
+        padding: 0 16px;
+
+        .hamburger-btn {
+            display: flex;  // ← appare su mobile
+        }
+
+        .page-title {
+            font-size: 18px;
+        }
+    }
+
+    .content-area {
+        padding: 16px;
+    }
+
+    // Sidebar si nasconde fuori schermo a sinistra
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        transform: translateX(-100%);
+    }
+
+    // Quando menu è aperto
+    .menu-aperto {
+        .sidebar {
+            transform: translateX(0);
+        }
+
+        .sidebar-overlay {
+            display: block;
+        }
+    }
+}
+
+// ================================
+// RESPONSIVE — mobile piccolo (400px)
+// ================================
+@media (max-width: 400px) {
+
+    .topbar {
+        padding: 0 12px;
+        height: 56px;
+
+        .page-title {
+            font-size: 16px;
+        }
+
+        .logout-btn {
+            font-size: 14px;
+        }
+    }
+
+    .content-area {
+        padding: 12px;
+    }
 }

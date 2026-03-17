@@ -93,6 +93,7 @@ export class Autori implements OnInit {
   apriNuovo() {
     const dialogRef = this.dialog.open(AutoreFormDialog, {
       width: '550px',
+      maxWidth: '95vw',
       disableClose: true,
       data: null
     });
@@ -108,6 +109,7 @@ export class Autori implements OnInit {
   apriModifica(autore: Autore) {
     const dialogRef = this.dialog.open(AutoreFormDialog, {
       width: '550px',
+      maxWidth: '95vw',
       disableClose: true,
       data: { autore }
     });

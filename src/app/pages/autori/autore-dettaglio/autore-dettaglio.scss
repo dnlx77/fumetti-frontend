@@ -270,3 +270,105 @@
         }
     }
 }
+
+// ================================
+// RESPONSIVE — tablet (768px)
+// ================================
+@media (max-width: 768px) {
+
+    .dettaglio-layout {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .colonna-sinistra {
+        flex: none;
+        width: 100%;
+        flex-direction: row; // avatar e stats affiancati su mobile
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+
+        .avatar-box {
+            flex: 0 0 auto;
+        }
+
+        .stats-box {
+            flex: 1;
+            min-width: 160px;
+        }
+    }
+
+    .colonna-destra {
+        padding: 20px;
+
+        .sezione .albi-grid {
+            grid-template-columns: repeat(4, 1fr); // più colonne su tablet
+        }
+    }
+}
+
+@media (max-width: 768px) {
+
+    .colonna-destra .sezione {
+
+        .storie-list .storia-row {
+            flex-wrap: wrap;
+            gap: 4px;
+
+            .storia-info {
+                min-width: 0;
+                flex: 1 1 100%; // occupa tutta la riga
+
+                .storia-nome {
+                    white-space: normal;
+                    word-break: break-word;
+                }
+            }
+
+            .storia-ruolo {
+                margin-left: 0;
+            }
+        }
+    }
+}
+
+// ================================
+// RESPONSIVE — mobile piccolo (400px)
+// ================================
+@media (max-width: 400px) {
+
+    .colonna-sinistra {
+        flex-direction: column; // su schermi molto piccoli torna in colonna
+
+        .avatar-box .avatar {
+            width: 90px;
+            height: 90px;
+
+            span {
+                font-size: 32px;
+            }
+        }
+    }
+
+    .colonna-destra {
+        padding: 14px;
+
+        .intestazione .titolo {
+            font-size: 20px;
+        }
+
+        .sezione .albi-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .sezione .storia-row {
+            flex-wrap: wrap;
+            gap: 6px;
+
+            .storia-ruolo {
+                margin-left: 0;
+            }
+        }
+    }
+}

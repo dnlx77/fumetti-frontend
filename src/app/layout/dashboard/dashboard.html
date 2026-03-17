@@ -1,4 +1,7 @@
-<div class="dashboard-layout">
+<div class="dashboard-layout" [class.menu-aperto]="menuAperto">
+
+    <!-- Overlay scuro su mobile quando menu è aperto -->
+    <div class="sidebar-overlay" (click)="chiudiMenu()"></div>
 
     <aside class="sidebar">
         <div class="logo">
@@ -7,15 +10,15 @@
 
         <nav class="menu">
             <ul>
-                <li routerLink="/home" [class.active]="router.url.includes('/home')">🏠 Home</li>
-                <li routerLink="/search" [class.active]="router.url.includes('/search')">🔍 Ricerca</li>
-                <li routerLink="/statistiche" [class.active]="router.url.includes('/statistiche')">📊 Statistiche</li>
-                <li routerLink="/albi" [class.active]="router.url.includes('/albi')">📚 Albi</li>
-                <li routerLink="/storie" [class.active]="router.url.includes('/storie')">📝 Storie</li>
-                <li routerLink="/editori" [class.active]="router.url.includes('/editori')">🏢 Editori</li>
-                <li routerLink="/collane" [class.active]="router.url.includes('/collane')">🏷️ Collane</li>
-                <li routerLink="/ruoli" [class.active]="router.url.includes('/ruoli')">🎭 Ruoli</li>
-                <li routerLink="/autori" [class.active]="router.url.includes('/autori')">✍️ Autori</li>
+                <li routerLink="/home" [class.active]="router.url.includes('/home')" (click)="chiudiMenu()">🏠 Home</li>
+                <li routerLink="/search" [class.active]="router.url.includes('/search')" (click)="chiudiMenu()">🔍 Ricerca</li>
+                <li routerLink="/statistiche" [class.active]="router.url.includes('/statistiche')" (click)="chiudiMenu()">📊 Statistiche</li>
+                <li routerLink="/albi" [class.active]="router.url.includes('/albi')" (click)="chiudiMenu()">📚 Albi</li>
+                <li routerLink="/storie" [class.active]="router.url.includes('/storie')" (click)="chiudiMenu()">📝 Storie</li>
+                <li routerLink="/editori" [class.active]="router.url.includes('/editori')" (click)="chiudiMenu()">🏢 Editori</li>
+                <li routerLink="/collane" [class.active]="router.url.includes('/collane')" (click)="chiudiMenu()">🏷️ Collane</li>
+                <li routerLink="/ruoli" [class.active]="router.url.includes('/ruoli')" (click)="chiudiMenu()">🎭 Ruoli</li>
+                <li routerLink="/autori" [class.active]="router.url.includes('/autori')" (click)="chiudiMenu()">✍️ Autori</li>
             </ul>
         </nav>
     </aside>
@@ -23,7 +26,13 @@
     <div class="main-wrapper">
 
         <header class="topbar">
-            <div class="page-title">Dashboard</div>
+            <!-- Bottone hamburger — visibile solo su mobile -->
+            <button class="hamburger-btn" (click)="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="page-title">MyComics</div>
             <button class="logout-btn" (click)="logout()">Esci 🚪</button>
         </header>
 

@@ -94,3 +94,51 @@
         }
     }
 }
+
+// ================================
+// RESPONSIVE — tablet (768px)
+// ================================
+@media (max-width: 768px) {
+
+    .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .custom-paginator-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        padding: 8px 12px;
+
+        .jump-to-page {
+            border-left: none;
+            padding-left: 0;
+            border-top: 1px solid #ddd;
+            padding-top: 8px;
+            width: 100%;
+        }
+    }
+}
+
+// ================================
+// RESPONSIVE — mobile piccolo (400px)
+// ================================
+@media (max-width: 400px) {
+
+    .generic-list-container .list-header {
+        h2 {
+            font-size: 18px;
+        }
+    }
+
+    .table-container {
+        border-radius: 0;
+
+        td.mat-cell,
+        th.mat-header-cell {
+            padding: 4px 8px;
+            font-size: 13px;
+        }
+    }
+}

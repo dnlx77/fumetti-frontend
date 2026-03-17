@@ -280,3 +280,62 @@
         }
     }
 }
+
+// ================================
+// RESPONSIVE — tablet (768px)
+// ================================
+@media (max-width: 768px) {
+
+    .grafici-row {
+        .grafico-card {
+            min-width: 100%;
+        }
+    }
+
+    .liste-row {
+        .lista-card {
+            min-width: 100%;
+        }
+    }
+}
+
+// ================================
+// RESPONSIVE — mobile piccolo (400px)
+// ================================
+@media (max-width: 400px) {
+
+    .cards-row {
+        .stat-card {
+            min-width: calc(50% - 8px);
+            flex: none;
+            padding: 14px;
+            gap: 10px;
+
+            mat-icon {
+                font-size: 28px;
+                width: 28px;
+                height: 28px;
+            }
+
+            .stat-info .stat-numero {
+                font-size: 22px;
+            }
+
+            .stat-info .stat-label {
+                font-size: 12px;
+            }
+        }
+    }
+
+    .carosello-wrapper {
+        .carosello-viewport .carosello-track .carosello-card {
+            width: 100px;
+
+            .copertina,
+            .no-copertina {
+                width: 100px;
+                height: 140px;
+            }
+        }
+    }
+}
