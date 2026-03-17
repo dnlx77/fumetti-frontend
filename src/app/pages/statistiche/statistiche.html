@@ -1,0 +1,258 @@
+<div class="statistiche-container">
+
+    <h2 class="page-title">📊 Statistiche</h2>
+
+    <div [hidden]="isLoading" class="contenuto">
+
+        <!-- ================================ -->
+        <!-- PANORAMICA                       -->
+        <!-- ================================ -->
+        <div class="cards-panoramica">
+            <div class="stat-card blu">
+                <span class="stat-numero">{{ dati?.panoramica?.totale_albi }}</span>
+                <span class="stat-label">📚 Albi</span>
+            </div>
+            <div class="stat-card verde">
+                <span class="stat-numero">{{ dati?.panoramica?.albi_letti }}</span>
+                <span class="stat-label">✅ Letti</span>
+            </div>
+            <div class="stat-card arancio">
+                <span class="stat-numero">{{ dati?.panoramica?.albi_da_leggere }}</span>
+                <span class="stat-label">🔖 Da leggere</span>
+            </div>
+            <div class="stat-card viola">
+                <span class="stat-numero">{{ dati?.panoramica?.percentuale_letti }}%</span>
+                <span class="stat-label">📈 Completato</span>
+            </div>
+            <div class="stat-card rosa">
+                <span class="stat-numero">{{ dati?.panoramica?.totale_storie }}</span>
+                <span class="stat-label">📝 Storie</span>
+            </div>
+            <div class="stat-card teal">
+                <span class="stat-numero">{{ dati?.panoramica?.totale_autori }}</span>
+                <span class="stat-label">✍️ Autori</span>
+            </div>
+            <div class="stat-card grigio">
+                <span class="stat-numero">{{ dati?.panoramica?.totale_editori }}</span>
+                <span class="stat-label">🏢 Editori</span>
+            </div>
+            <div class="stat-card giallo">
+                <span class="stat-numero">{{ dati?.panoramica?.totale_collane }}</span>
+                <span class="stat-label">🏷️ Collane</span>
+            </div>
+        </div>
+
+        <!-- ================================ -->
+        <!-- LETTURE — streak e media         -->
+        <!-- ================================ -->
+        <div class="sezione-titolo">📖 Le tue letture</div>
+        <div class="cards-letture">
+            <div class="lettura-card">
+                <span class="lettura-numero">{{ dati?.letture?.streak_attuale }}</span>
+                <span class="lettura-label">🔥 Streak attuale (giorni)</span>
+            </div>
+            <div class="lettura-card">
+                <span class="lettura-numero">{{ dati?.letture?.streak_massima }}</span>
+                <span class="lettura-label">🏆 Streak massima (giorni)</span>
+            </div>
+            <div class="lettura-card">
+                <span class="lettura-numero">{{ dati?.letture?.media_mensile }}</span>
+                <span class="lettura-label">📅 Media albi/mese</span>
+            </div>
+        </div>
+
+        <!-- Grafici letture -->
+        <div class="grafici-row">
+            <div class="grafico-card grande">
+                <div class="grafico-titolo">Letture per mese</div>
+                <div class="chart-container"><canvas id="chartLetturePerMese"></canvas></div>
+            </div>
+            <div class="grafico-card">
+                <div class="grafico-titolo">Letture per anno</div>
+                <div class="chart-container"><canvas id="chartLetturePerAnno"></canvas></div>
+            </div>
+        </div>
+
+        <!-- ================================ -->
+        <!-- HEATMAP                          -->
+        <!-- ================================ -->
+        <div class="sezione-titolo">🗓️ Calendario letture</div>
+
+        <!-- Controlli range date -->
+        <div class="heatmap-controlli">
+            <div class="date-inputs">
+                <label>Da: <input type="date" [(ngModel)]="heatmapDa"></label>
+                <label>A: <input type="date" [(ngModel)]="heatmapA"></label>
+                <button mat-raised-button color="primary" (click)="caricaHeatmap()">
+                    <span>Aggiorna</span>
+                </button>
+            </div>
+            <div class="range-buttons">
+                <button mat-stroked-button (click)="setRangeQuestoMese()"><span>Questo mese</span></button>
+                <button mat-stroked-button (click)="setRangeUltimi3Mesi()"><span>Ultimi 3 mesi</span></button>
+                <button mat-stroked-button (click)="setRangeQuestAnno()"><span>Quest'anno</span></button>
+                <button mat-stroked-button (click)="setRangeAnnoScorso()"><span>Anno scorso</span></button>
+                <button mat-stroked-button (click)="setRangeTutto()"><span>Tutto</span></button>
+            </div>
+        </div>
+
+        <!-- Heatmap albi -->
+        <div class="heatmap-wrapper">
+            <div class="heatmap-label">📚 Albi letti</div>
+            <div class="heatmap-grid">
+                <div *ngFor="let giorno of buildHeatmap(heatmapAlbiDati)"
+                     class="heatmap-cella livello-{{ giorno.livello }}"
+                     [title]="giorno.data + ': ' + giorno.totale + ' letture'">
+                </div>
+            </div>
+            <div class="heatmap-legenda">
+                <span>Meno</span>
+                <div class="cella-leg livello-0"></div>
+                <div class="cella-leg livello-1"></div>
+                <div class="cella-leg livello-2"></div>
+                <div class="cella-leg livello-3"></div>
+                <div class="cella-leg livello-4"></div>
+                <span>Più</span>
+            </div>
+        </div>
+
+        <!-- Heatmap storie -->
+        <div class="heatmap-wrapper">
+            <div class="heatmap-label">📝 Storie lette</div>
+            <div class="heatmap-grid">
+                <div *ngFor="let giorno of buildHeatmap(heatmapStorieDati)"
+                     class="heatmap-cella livello-{{ giorno.livello }}"
+                     [title]="giorno.data + ': ' + giorno.totale + ' letture'">
+                </div>
+            </div>
+            <div class="heatmap-legenda">
+                <span>Meno</span>
+                <div class="cella-leg livello-0"></div>
+                <div class="cella-leg livello-1"></div>
+                <div class="cella-leg livello-2"></div>
+                <div class="cella-leg livello-3"></div>
+                <div class="cella-leg livello-4"></div>
+                <span>Più</span>
+            </div>
+        </div>
+
+        <!-- ================================ -->
+        <!-- COLLEZIONE                       -->
+        <!-- ================================ -->
+        <div class="sezione-titolo">📚 La tua collezione</div>
+        <div class="grafici-row">
+            <div class="grafico-card">
+                <div class="grafico-titolo">Albi per Editore</div>
+                <div class="chart-container"><canvas id="chartEditore"></canvas></div>
+            </div>
+            <div class="grafico-card">
+                <div class="grafico-titolo">Albi per Collana (top 10)</div>
+                <div class="chart-container alto"><canvas id="chartCollana"></canvas></div>
+            </div>
+        </div>
+        <div class="grafici-row">
+            <div class="grafico-card grande">
+                <div class="grafico-titolo">Albi per Anno di Pubblicazione</div>
+                <div class="chart-container"><canvas id="chartAnnoPub"></canvas></div>
+            </div>
+        </div>
+
+        <!-- ================================ -->
+        <!-- STORIE                           -->
+        <!-- ================================ -->
+        <div class="sezione-titolo">📝 Storie</div>
+        <div class="grafici-row">
+            <div class="grafico-card piccolo">
+                <div class="grafico-titolo">Storie per Stato</div>
+                <div class="chart-container"><canvas id="chartStorieStato"></canvas></div>
+            </div>
+            <div class="stat-card-grande verde">
+                <span class="stat-numero-grande">{{ dati?.storie?.storie_lette }}</span>
+                <span class="stat-label-grande">✅ Storie lette</span>
+            </div>
+            <div class="stat-card-grande arancio">
+                <span class="stat-numero-grande">{{ dati?.storie?.storie_da_leggere }}</span>
+                <span class="stat-label-grande">🔖 Storie da leggere</span>
+            </div>
+        </div>
+
+        <!-- ================================ -->
+        <!-- TOP AUTORI                       -->
+        <!-- ================================ -->
+        <div class="sezione-titolo">✍️ Top Autori</div>
+        <div class="grafici-row">
+            <div class="grafico-card">
+                <div class="grafico-titolo">Top 10 per Storie</div>
+                <div class="chart-container alto"><canvas id="chartTopAutoriStorie"></canvas></div>
+            </div>
+            <div class="grafico-card">
+                <div class="grafico-titolo">Top 10 per Albi Copertina</div>
+                <div class="chart-container alto"><canvas id="chartTopAutoriAlbi"></canvas></div>
+            </div>
+        </div>
+
+        <!-- ================================ -->
+        <!-- CURIOSITÀ                        -->
+        <!-- ================================ -->
+        <div class="sezione-titolo">🔍 Curiosità</div>
+        <div class="curiosita-grid">
+
+            <div class="curiosita-card" [routerLink]="['/albi', dati?.curiosita?.albo_piu_vecchio?.id]">
+                <div class="curiosita-icona">📅</div>
+                <div class="curiosita-info">
+                    <span class="curiosita-titolo">Albo più vecchio</span>
+                    <span class="curiosita-valore">{{ dati?.curiosita?.albo_piu_vecchio?.titolo || 'N/D' }}</span>
+                    <span class="curiosita-sub">{{ dati?.curiosita?.albo_piu_vecchio?.data_pubblicazione | date:'dd/MM/yyyy' }}</span>
+                </div>
+            </div>
+
+            <div class="curiosita-card" [routerLink]="['/albi', dati?.curiosita?.albo_piu_recente?.id]">
+                <div class="curiosita-icona">🆕</div>
+                <div class="curiosita-info">
+                    <span class="curiosita-titolo">Albo più recente</span>
+                    <span class="curiosita-valore">{{ dati?.curiosita?.albo_piu_recente?.titolo || 'N/D' }}</span>
+                    <span class="curiosita-sub">{{ dati?.curiosita?.albo_piu_recente?.data_pubblicazione | date:'dd/MM/yyyy' }}</span>
+                </div>
+            </div>
+
+            <div class="curiosita-card">
+                <div class="curiosita-icona">💰</div>
+                <div class="curiosita-info">
+                    <span class="curiosita-titolo">Prezzo medio</span>
+                    <span class="curiosita-valore">€ {{ dati?.curiosita?.prezzo_medio_euro }}</span>
+                    <span class="curiosita-sub" [hidden]="!dati?.curiosita?.prezzo_medio_lire">
+                        ₤ {{ dati?.curiosita?.prezzo_medio_lire | number:'1.0-0' }} (lire)
+                    </span>
+                </div>
+            </div>
+
+            <div class="curiosita-card">
+                <div class="curiosita-icona">🏷️</div>
+                <div class="curiosita-info">
+                    <span class="curiosita-titolo">Collana più grande</span>
+                    <span class="curiosita-valore">{{ dati?.curiosita?.collana_piu_grande?.nome }}</span>
+                    <span class="curiosita-sub">{{ dati?.curiosita?.collana_piu_grande?.totale }} albi</span>
+                </div>
+            </div>
+
+            <div class="curiosita-card">
+                <div class="curiosita-icona">📅</div>
+                <div class="curiosita-info">
+                    <span class="curiosita-titolo">Mese più produttivo</span>
+                    <span class="curiosita-valore">
+                        {{ nomeMese(dati?.curiosita?.mese_piu_produttivo?.mese) }}
+                        {{ dati?.curiosita?.mese_piu_produttivo?.anno }}
+                    </span>
+                    <span class="curiosita-sub">{{ dati?.curiosita?.mese_piu_produttivo?.totale }} letture</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div [hidden]="!isLoading" class="loading-state">
+        <p>Calcolo statistiche... ⏳</p>
+    </div>
+
+</div>
