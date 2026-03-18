@@ -1,0 +1,132 @@
+.profilo-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 24px;
+}
+
+.loading-state {
+    text-align: center;
+    padding: 60px;
+    color: #777;
+}
+
+.contenuto {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+// ================================
+// INFO UTENTE
+// ================================
+.info-card {
+    background: white;
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .avatar {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3f51b5, #7986cb);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(63, 81, 181, 0.3);
+
+        span {
+            font-size: 30px;
+            font-weight: 700;
+            color: white;
+        }
+    }
+
+    .info-dati {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .info-nome {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+
+        .info-email {
+            font-size: 14px;
+            color: #888;
+        }
+    }
+}
+
+// ================================
+// CAMBIO PASSWORD
+// ================================
+.password-card {
+    background: white;
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+
+    .card-titolo {
+        font-size: 16px;
+        font-weight: 600;
+        color: #444;
+        margin: 0 0 20px;
+    }
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .full-width { width: 100%; }
+
+        .errore-server {
+            color: #e53935;
+            font-size: 13px;
+            margin: -8px 0 8px;
+        }
+
+        .submit-btn {
+            margin-top: 8px;
+            height: 44px;
+        }
+    }
+}
+
+// ================================
+// RESPONSIVE
+// ================================
+@media (max-width: 400px) {
+
+    .page-title { font-size: 20px; }
+
+    .info-card {
+        padding: 20px;
+        gap: 14px;
+
+        .avatar {
+            width: 56px;
+            height: 56px;
+            span { font-size: 22px; }
+        }
+
+        .info-dati .info-nome { font-size: 17px; }
+    }
+
+    .password-card {
+        padding: 20px;
+    }
+}

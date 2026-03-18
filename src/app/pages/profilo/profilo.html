@@ -1,0 +1,91 @@
+<div class="profilo-container">
+
+    <h2 class="page-title">👤 Profilo</h2>
+
+    <div [hidden]="isLoading" class="contenuto">
+
+        <!-- Info utente -->
+        <div class="info-card">
+            <div class="avatar">
+                <span>{{ utente?.name?.charAt(0)?.toUpperCase() }}</span>
+            </div>
+            <div class="info-dati">
+                <span class="info-nome">{{ utente?.name }}</span>
+                <span class="info-email">{{ utente?.email }}</span>
+            </div>
+        </div>
+
+        <!-- Cambio password -->
+        <div class="password-card">
+            <h3 class="card-titolo">🔒 Cambia Password</h3>
+
+            <form [formGroup]="form" (ngSubmit)="salvaPassword()" class="form-container">
+
+                <!-- Password attuale -->
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Password attuale</mat-label>
+                    <input matInput
+                           [type]="mostraAttuale ? 'text' : 'password'"
+                           formControlName="password_attuale">
+                    <button mat-icon-button matSuffix type="button"
+                            (click)="mostraAttuale = !mostraAttuale">
+                        <mat-icon>{{ mostraAttuale ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.get('password_attuale')?.hasError('required')">
+                        Campo obbligatorio
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Errore password attuale dal server -->
+                <p class="errore-server" [hidden]="!errorePassword">{{ errorePassword }}</p>
+
+                <!-- Nuova password -->
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nuova password</mat-label>
+                    <input matInput
+                           [type]="mostraNuova ? 'text' : 'password'"
+                           formControlName="nuova_password">
+                    <button mat-icon-button matSuffix type="button"
+                            (click)="mostraNuova = !mostraNuova">
+                        <mat-icon>{{ mostraNuova ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.get('nuova_password')?.hasError('required')">
+                        Campo obbligatorio
+                    </mat-error>
+                    <mat-error *ngIf="form.get('nuova_password')?.hasError('minlength')">
+                        Minimo 8 caratteri
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Conferma password -->
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Conferma nuova password</mat-label>
+                    <input matInput
+                           [type]="mostraConferma ? 'text' : 'password'"
+                           formControlName="conferma">
+                    <button mat-icon-button matSuffix type="button"
+                            (click)="mostraConferma = !mostraConferma">
+                        <mat-icon>{{ mostraConferma ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.hasError('passwordMismatch') && form.get('conferma')?.touched">
+                        Le password non coincidono
+                    </mat-error>
+                </mat-form-field>
+
+                <button mat-raised-button color="primary"
+                        type="submit"
+                        [disabled]="isSaving"
+                        class="submit-btn">
+                    <span>{{ isSaving ? 'Salvataggio...' : 'Aggiorna Password' }}</span>
+                </button>
+
+            </form>
+        </div>
+
+    </div>
+
+    <div [hidden]="!isLoading" class="loading-state">
+        <p>Caricamento... ⏳</p>
+    </div>
+
+</div>

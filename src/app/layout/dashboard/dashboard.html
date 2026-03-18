@@ -24,22 +24,29 @@
     </aside>
 
     <div class="main-wrapper">
-
+    
         <header class="topbar">
-            <!-- Bottone hamburger — visibile solo su mobile -->
             <button class="hamburger-btn" (click)="toggleMenu()">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
+    
             <div class="page-title">MyComics</div>
-            <button class="logout-btn" (click)="logout()">Esci 🚪</button>
+    
+            <div class="topbar-destra">
+                <!-- Nome utente cliccabile -->
+                <span class="utente-nome" routerLink="/profilo" [class.active]="router.url.includes('/profilo')">
+                    👤 {{ nomeUtente }}
+                </span>
+                <button class="logout-btn" (click)="logout()">Esci 🚪</button>
+            </div>
         </header>
-
+    
         <main class="content-area">
             <router-outlet></router-outlet>
         </main>
-
+    
     </div>
 
 </div>
