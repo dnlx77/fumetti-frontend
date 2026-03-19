@@ -299,4 +299,13 @@ export class Statistiche implements OnInit {
     parts.push(autore.nome);
     return parts.filter(Boolean).join(' ');
   }
+
+  formatPrezzo(valore: number | null, decimali: number = 2): string {
+    if (valore == null) return '-';
+    return valore.toLocaleString('it-IT', {
+        minimumFractionDigits: decimali,
+        maximumFractionDigits: decimali,
+        useGrouping: false  // ← niente separatore migliaia
+    });
+  }
 }

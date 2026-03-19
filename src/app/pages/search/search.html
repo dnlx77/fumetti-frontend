@@ -48,6 +48,17 @@
                             <mat-option value="0">Da leggere</mat-option>
                         </mat-select>
                     </mat-form-field>
+                    <div class="filtri-date">
+                        <mat-form-field appearance="outline" class="filtro-field-data">
+                            <mat-label>Dal</mat-label>
+                            <input matInput type="date" [(ngModel)]="dalData" (ngModelChange)="onFiltroChange()">
+                        </mat-form-field>
+                        
+                        <mat-form-field appearance="outline" class="filtro-field-data">
+                            <mat-label>Al</mat-label>
+                            <input matInput type="date" [(ngModel)]="alData" (ngModelChange)="onFiltroChange()">
+                        </mat-form-field>
+                    </div>
                 </div>
 
                 <div [hidden]="isLoadingAlbi">

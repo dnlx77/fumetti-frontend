@@ -32,7 +32,6 @@ export interface LettureDialogData {
     MatProgressSpinnerModule,
     ReactiveFormsModule,
     MatSnackBarModule,
-    ConfermaDialogComponent,
   ],
   templateUrl: './letture-dialog.html',
   styleUrl: './letture-dialog.scss'

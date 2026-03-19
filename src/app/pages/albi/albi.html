@@ -9,7 +9,7 @@
     </div>
 
     @if (isLoading()) {
-    <p>Connessione al database di Gotham in corso... ⏳</p>
+        <p>Connessione al database in corso... ⏳</p>
     } @else {
 
     <div class="table-container mat-elevation-z8">
@@ -19,26 +19,35 @@
                 <th mat-header-cell *matHeaderCellDef> Copertina </th>
                 <td mat-cell *matCellDef="let albo">
                     @if (albo.filename) {
-                    <img [src]="getImmagineUrl(albo.filename)" alt="Copertina di {{ albo.titolo }}"
-                        class="cover-img cover-cliccabile" [routerLink]="['/albi', albo.id]" matTooltip="Vedi dettaglio">
+                        <img [src]="getImmagineUrl(albo.filename)" alt="Copertina di {{ albo.titolo }}"
+                            class="cover-img cover-cliccabile" [routerLink]="['/albi', albo.id]" matTooltip="Vedi dettaglio">
                     } @else {
-                    <div class="no-cover cover-cliccabile" [routerLink]="['/albi', albo.id]" matTooltip="Vedi dettaglio">N/D</div>
+                        <div class="no-cover cover-cliccabile" [routerLink]="['/albi', albo.id]" matTooltip="Vedi dettaglio">N/D</div>
                     }
                 </td>
             </ng-container>
 
             <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef> ID </th>
-                <td mat-cell *matCellDef="let albo"> {{ albo.id }} </td>
+                <th mat-header-cell *matHeaderCellDef class="col-sortable" (click)="ordinaPerColonna('id')">
+                    <span>ID</span>
+                    <mat-icon class="sort-icon">{{ getIconaOrdinamento('id') }}</mat-icon>
+                </th>
+                <td mat-cell *matCellDef="let record"> {{ record.id }} </td>
             </ng-container>
 
             <ng-container matColumnDef="titolo">
-                <th mat-header-cell *matHeaderCellDef> Titolo </th>
+                <th mat-header-cell *matHeaderCellDef class="col-sortable" (click)="ordinaPerColonna('titolo')">
+                    <span>Titolo</span>
+                    <mat-icon class="sort-icon">{{ getIconaOrdinamento('titolo') }}</mat-icon>
+                </th>
                 <td mat-cell *matCellDef="let albo"> <strong>{{ albo.titolo }}</strong> </td>
             </ng-container>
 
             <ng-container matColumnDef="numero">
-                <th mat-header-cell *matHeaderCellDef> Numero </th>
+                <th mat-header-cell *matHeaderCellDef class="col-sortable" (click)="ordinaPerColonna('numero')">
+                    <span>Numero</span>
+                    <mat-icon class="sort-icon">{{ getIconaOrdinamento('numero') }}</mat-icon>
+                </th>
                 <td mat-cell *matCellDef="let albo"> N° {{ albo.numero }} </td>
             </ng-container>
 
@@ -53,12 +62,18 @@
             </ng-container>
 
             <ng-container matColumnDef="data_pubblicazione">
-                <th mat-header-cell *matHeaderCellDef> Data Uscita </th>
+                <th mat-header-cell *matHeaderCellDef class="col-sortable" (click)="ordinaPerColonna('data_pubblicazione')">
+                    <span>Data Uscita</span>
+                    <mat-icon class="sort-icon">{{ getIconaOrdinamento('data_pubblicazione') }}</mat-icon>
+                </th>
                 <td mat-cell *matCellDef="let albo"> {{ albo.data_pubblicazione | date:'dd/MM/yyyy' }} </td>
             </ng-container>
 
             <ng-container matColumnDef="letture">
-                <th mat-header-cell *matHeaderCellDef> Letture </th>
+                <th mat-header-cell *matHeaderCellDef class="col-sortable" (click)="ordinaPerColonna('date_lettura_count')">
+                    <span>Letture</span>
+                    <mat-icon class="sort-icon">{{ getIconaOrdinamento('date_lettura_count') }}</mat-icon>
+                </th>
                 <td mat-cell *matCellDef="let albo">
                     <button mat-button class="badge-letture" (click)="apriLetture(albo)" matTooltip="Gestisci letture">
                         <mat-icon>menu_book</mat-icon>
@@ -67,16 +82,13 @@
                 </td>
             </ng-container>
 
-            <!-- Colonna AZIONI -->
             <ng-container matColumnDef="azioni">
                 <th mat-header-cell *matHeaderCellDef> Azioni </th>
                 <td mat-cell *matCellDef="let albo" class="azioni-cell">
-                    <button mat-icon-button color="primary" (click)="apriModifica(albo)" matTooltip="Modifica albo"
-                        aria-label="Modifica albo">
+                    <button mat-icon-button color="primary" (click)="apriModifica(albo)" matTooltip="Modifica albo">
                         <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-icon-button color="warn" (click)="apriConfermaEliminazione(albo)"
-                        matTooltip="Elimina albo" aria-label="Elimina albo">
+                    <button mat-icon-button color="warn" (click)="apriConfermaEliminazione(albo)" matTooltip="Elimina albo">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </td>
@@ -87,22 +99,19 @@
         </table>
 
         <div class="custom-paginator-wrapper">
-
             <mat-paginator [length]="totaleAlbi()" [pageSize]="elementiPerPagina()" [pageIndex]="paginaCorrente()"
                 (page)="cambiaPagina($event)" [hidePageSize]="true" showFirstLastButtons aria-label="Seleziona pagina">
             </mat-paginator>
-
             <div class="jump-to-page">
                 <label>Vai a pagina:</label>
                 <input type="number" min="1" [max]="pagineTotali()" [value]="paginaCorrente() + 1" #pageInput
                     (keyup.enter)="saltaAPagina(pageInput)" (blur)="saltaAPagina(pageInput)">
                 <span>di {{ pagineTotali() }}</span>
             </div>
-
         </div>
 
         @if (listaAlbi().length === 0) {
-        <div class="empty-state">Nessun albo trovato. Il tuo database è vuoto!</div>
+            <div class="empty-state">Nessun albo trovato.</div>
         }
     </div>
     }

@@ -12,8 +12,8 @@ export class AutoreService {
 
   constructor(private http: HttpClient) {}
 
-  getAutori(page: number = 1): Observable<AutoreApiResponse> {
-    return this.http.get<AutoreApiResponse>(`${this.endpoint}?page=${page}`);
+  getAutori(page: number = 1, ordinaPer: string = 'cognome', direzione: string = 'asc'): Observable<AutoreApiResponse> {
+    return this.http.get<AutoreApiResponse>(`${this.endpoint}?page=${page}&ordina_per=${ordinaPer}&direzione=${direzione}`);
   }
 
   getAutore(id: number): Observable<any> {

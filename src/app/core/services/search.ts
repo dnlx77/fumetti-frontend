@@ -8,6 +8,8 @@ export interface SearchParams {
   campo: string;
   tipo: string;
   letto?: string;
+  dal?: string;
+  al?: string;
   page?: number;
 }
 

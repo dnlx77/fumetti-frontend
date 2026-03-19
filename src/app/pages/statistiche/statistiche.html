@@ -223,9 +223,9 @@
                 <div class="curiosita-icona">💰</div>
                 <div class="curiosita-info">
                     <span class="curiosita-titolo">Prezzo medio</span>
-                    <span class="curiosita-valore">€ {{ dati?.curiosita?.prezzo_medio_euro }}</span>
+                    <span class="curiosita-valore">{{ formatPrezzo(dati?.curiosita?.prezzo_medio_euro) }}</span>
                     <span class="curiosita-sub" [hidden]="!dati?.curiosita?.prezzo_medio_lire">
-                        ₤ {{ dati?.curiosita?.prezzo_medio_lire | number:'1.0-0' }} (lire)
+                        ₤ {{ formatPrezzo(dati?.curiosita?.prezzo_medio_lire, 0) }} (lire)
                     </span>
                 </div>
             </div>
@@ -248,6 +248,35 @@
                         {{ dati?.curiosita?.mese_piu_produttivo?.anno }}
                     </span>
                     <span class="curiosita-sub">{{ dati?.curiosita?.mese_piu_produttivo?.totale }} letture</span>
+                </div>
+            </div>
+
+            <div class="curiosita-card" [routerLink]="['/albi', dati?.curiosita?.albo_piu_costoso?.id]">
+                <div class="curiosita-icona">💎</div>
+                <div class="curiosita-info">
+                    <span class="curiosita-titolo">Albo più costoso</span>
+                    <span class="curiosita-valore">{{ dati?.curiosita?.albo_piu_costoso?.titolo || 'N/D' }}</span>
+                    <span class="curiosita-sub">{{ formatPrezzo(dati?.curiosita?.albo_piu_costoso?.prezzo) }}</span>
+                </div>
+            </div>
+
+            <div class="curiosita-card">
+                <div class="curiosita-icona">🧾</div>
+                <div class="curiosita-info">
+                    <span class="curiosita-titolo">Costo totale collezione</span>
+                    <span class="curiosita-valore">{{ formatPrezzo(dati?.curiosita?.costo_totale_euro) }}</span>
+                    <span class="curiosita-sub" [hidden]="!dati?.curiosita?.costo_totale_lire">
+                        ₤ {{ formatPrezzo(dati?.curiosita?.costo_totale_lire, 0) }} (lire)
+                    </span>
+                </div>
+            </div>
+
+            <div class="curiosita-card" [routerLink]="['/storie', dati?.curiosita?.storia_piu_lunga?.id]">
+                <div class="curiosita-icona">📖</div>
+                <div class="curiosita-info">
+                    <span class="curiosita-titolo">Storia più lunga</span>
+                    <span class="curiosita-valore">{{ dati?.curiosita?.storia_piu_lunga?.nome || 'N/D' }}</span>
+                    <span class="curiosita-sub">{{ dati?.curiosita?.storia_piu_lunga?.albi_count }} albi</span>
                 </div>
             </div>
 

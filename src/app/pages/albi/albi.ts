@@ -28,7 +28,6 @@ import { LettureDialog } from '../../shared/letture-dialog/letture-dialog';
     MatTooltipModule,
     MatSnackBarModule,
     RouterModule,
-    LettureDialog,
   ],
   templateUrl: './albi.html',
   styleUrl: './albi.scss'
@@ -42,9 +41,12 @@ export class Albi implements OnInit {
   elementiPerPagina = signal<number>(50);
   pagineTotali = computed(() => Math.ceil(this.totaleAlbi() / this.elementiPerPagina()));
 
+  // Ordinamento
+  ordinaPer = 'data_pubblicazione';
+  direzione: 'asc' | 'desc' = 'desc';
+
   apiUrl = environment.apiUrl.replace('/api/v1', '');
 
-  // Aggiunta la colonna 'azioni' in fondo
   colonneMostrate: string[] = ['copertina', 'id', 'titolo', 'numero', 'collana', 'editore', 'data_pubblicazione', 'letture', 'azioni'];
 
   constructor(
@@ -63,7 +65,7 @@ export class Albi implements OnInit {
 
   caricaFumetti(pagina: number) {
     this.isLoading.set(true);
-    this.alboService.getAlbi(pagina).subscribe({
+    this.alboService.getAlbi(pagina, this.ordinaPer, this.direzione).subscribe({
       next: (response) => {
         this.listaAlbi.set(response.dati.data);
         this.totaleAlbi.set(response.dati.total);
@@ -80,84 +82,72 @@ export class Albi implements OnInit {
     });
   }
 
+  ordinaPerColonna(colonna: string) {
+    if (this.ordinaPer === colonna) {
+      this.direzione = this.direzione === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.ordinaPer = colonna;
+      this.direzione = 'asc';
+    }
+    this.caricaFumetti(1);
+  }
+
+  getIconaOrdinamento(colonna: string): string {
+    if (this.ordinaPer !== colonna) return 'unfold_more';
+    return this.direzione === 'asc' ? 'arrow_upward' : 'arrow_downward';
+  }
+
   cambiaPagina(event: PageEvent) {
-    const paginaRichiesta = event.pageIndex + 1;
-    this.caricaFumetti(paginaRichiesta);
+    this.caricaFumetti(event.pageIndex + 1);
   }
 
   saltaAPagina(inputElement: HTMLInputElement) {
     let paginaScelta = parseInt(inputElement.value, 10);
-    if (paginaScelta < 1) {
-      paginaScelta = 1;
-      inputElement.value = '1';
-    } else if (paginaScelta > this.pagineTotali()) {
-      paginaScelta = this.pagineTotali();
-      inputElement.value = this.pagineTotali().toString();
-    }
-    if (paginaScelta !== (this.paginaCorrente() + 1)) {
-      this.caricaFumetti(paginaScelta);
-    }
+    if (paginaScelta < 1) { paginaScelta = 1; inputElement.value = '1'; }
+    else if (paginaScelta > this.pagineTotali()) { paginaScelta = this.pagineTotali(); inputElement.value = this.pagineTotali().toString(); }
+    if (paginaScelta !== (this.paginaCorrente() + 1)) this.caricaFumetti(paginaScelta);
   }
 
-  // ✏️ Apre il dialog di MODIFICA passando l'albo selezionato come dato
   apriModifica(albo: Albo): void {
     const dialogRef = this.dialog.open(AlboFormDialog, {
-      width: '700px',
-      maxWidth: '95w',
-      disableClose: true, // L'utente deve usare Annulla, non cliccare fuori
-      data: { albo }      // Questo è il dato che il dialog riceve via MAT_DIALOG_DATA
+      width: '700px', maxWidth: '95vw', disableClose: true, data: { albo }
     });
-
     dialogRef.afterClosed().subscribe(risultato => {
       if (risultato === true) {
-        // Il dialog ha chiuso con successo → ricarichiamo la pagina corrente
         this.caricaFumetti(this.paginaCorrente() + 1);
         this.snackBar.open('Albo modificato con successo!', 'OK', { duration: 3000 });
       }
     });
   }
 
-  // 🗑️ Apre il dialog di CONFERMA, poi chiama l'API di eliminazione
   apriConfermaEliminazione(albo: Albo): void {
     const dialogRef = this.dialog.open(ConfermaDialogComponent, {
       width: '420px',
       data: {
         titolo: 'Conferma eliminazione',
         messaggio: `Sei sicuro di voler eliminare ${albo.titolo ? '"' + albo.titolo + '"' : 'questo albo'}? L'operazione è irreversibile.`,
-        labelConferma: 'Elimina',
-        labelAnnulla: 'Annulla'
+        labelConferma: 'Elimina', labelAnnulla: 'Annulla'
       }
     });
-
     dialogRef.afterClosed().subscribe((confermato: boolean) => {
       if (confermato) {
         this.alboService.deleteAlbo(albo.id).subscribe({
           next: () => {
-            // Se eravamo all'ultima pagina e l'abbiamo svuotata, torniamo alla precedente
-            const paginaDaCaricare = this.listaAlbi().length === 1 && this.paginaCorrente() > 0
-              ? this.paginaCorrente()       // torna alla pagina precedente (indice - 1 + 1 = indice)
-              : this.paginaCorrente() + 1;  // ricarica la pagina corrente (indice + 1 = numero pagina)
-            this.caricaFumetti(paginaDaCaricare);
+            const p = this.listaAlbi().length === 1 && this.paginaCorrente() > 0
+              ? this.paginaCorrente() : this.paginaCorrente() + 1;
+            this.caricaFumetti(p);
             this.snackBar.open('Albo eliminato.', 'OK', { duration: 3000 });
           },
-          error: (err) => {
-            console.error('Errore eliminazione:', err);
-            this.snackBar.open('Errore durante l\'eliminazione.', 'Chiudi', { duration: 4000 });
-          }
+          error: () => this.snackBar.open('Errore durante l\'eliminazione.', 'Chiudi', { duration: 4000 })
         });
       }
     });
   }
 
-  // Apre il dialog di CREAZIONE (senza dati = MAT_DIALOG_DATA è null)
   apriNuovoAlbo(): void {
     const dialogRef = this.dialog.open(AlboFormDialog, {
-      width: '700px',
-      maxWidth: '95vw',
-      disableClose: true,
-      data: null // Nessun albo passato = modalità crea
+      width: '700px', maxWidth: '95vw', disableClose: true, data: null
     });
-
     dialogRef.afterClosed().subscribe(risultato => {
       if (risultato === true) {
         this.caricaFumetti(this.paginaCorrente() + 1);
@@ -168,18 +158,9 @@ export class Albi implements OnInit {
 
   apriLetture(albo: any): void {
     const dialogRef = this.dialog.open(LettureDialog, {
-        width: '450px',
-        maxWidth: '95vw',
-        data: {
-            tipo: 'albo',
-            id: albo.id,
-            titolo: albo.titolo || `Albo #${albo.id}`
-        }
+      width: '450px', maxWidth: '95vw',
+      data: { tipo: 'albo', id: albo.id, titolo: albo.titolo || `Albo #${albo.id}` }
     });
- 
-    // Quando il dialog si chiude ricarichiamo per aggiornare il conteggio
-    dialogRef.afterClosed().subscribe(() => {
-        this.caricaFumetti(this.paginaCorrente() + 1);
-    });
-}
+    dialogRef.afterClosed().subscribe(() => this.caricaFumetti(this.paginaCorrente() + 1));
+  }
 }

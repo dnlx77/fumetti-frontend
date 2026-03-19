@@ -9,19 +9,25 @@
     </div>
 
     @if (isLoading()) {
-    <p>Caricamento storie... ⏳</p>
+        <p>Caricamento storie... ⏳</p>
     } @else {
 
     <div class="table-container mat-elevation-z8">
         <table mat-table [dataSource]="listaStorie()" class="full-width-table">
 
             <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef> ID </th>
-                <td mat-cell *matCellDef="let storia"> {{ storia.id }} </td>
+                <th mat-header-cell *matHeaderCellDef class="col-sortable" (click)="ordinaPerColonna('id')">
+                    <span>ID</span>
+                    <mat-icon class="sort-icon">{{ getIconaOrdinamento('id') }}</mat-icon>
+                </th>
+                <td mat-cell *matCellDef="let record"> {{ record.id }} </td>
             </ng-container>
 
             <ng-container matColumnDef="nome">
-                <th mat-header-cell *matHeaderCellDef> Nome </th>
+                <th mat-header-cell *matHeaderCellDef class="col-sortable" (click)="ordinaPerColonna('nome')">
+                    <span>Nome</span>
+                    <mat-icon class="sort-icon">{{ getIconaOrdinamento('nome') }}</mat-icon>
+                </th>
                 <td mat-cell *matCellDef="let storia">
                     <strong class="nome-cliccabile" [routerLink]="['/storie', storia.id]">
                         {{ storia.nome || '-' }}
@@ -30,7 +36,10 @@
             </ng-container>
 
             <ng-container matColumnDef="stato">
-                <th mat-header-cell *matHeaderCellDef> Stato </th>
+                <th mat-header-cell *matHeaderCellDef class="col-sortable" (click)="ordinaPerColonna('stato')">
+                    <span>Stato</span>
+                    <mat-icon class="sort-icon">{{ getIconaOrdinamento('stato') }}</mat-icon>
+                </th>
                 <td mat-cell *matCellDef="let storia">
                     <span class="stato-badge" [ngClass]="'stato-' + storia.stato?.toLowerCase().replace(' ', '-')">
                         {{ etichettaStato(storia.stato) }}
@@ -40,13 +49,17 @@
 
             <ng-container matColumnDef="trama">
                 <th mat-header-cell *matHeaderCellDef> Trama </th>
-                <td mat-cell *matCellDef="let storia" class="trama-cell" [matTooltip]="storia.trama || ''" matTooltipShowDelay="300">
+                <td mat-cell *matCellDef="let storia" class="trama-cell"
+                    [matTooltip]="storia.trama || ''" matTooltipShowDelay="300">
                     {{ storia.trama || '-' }}
                 </td>
             </ng-container>
 
             <ng-container matColumnDef="letture">
-                <th mat-header-cell *matHeaderCellDef> Letture </th>
+                <th mat-header-cell *matHeaderCellDef class="col-sortable" (click)="ordinaPerColonna('date_lettura_count')">
+                    <span>Letture</span>
+                    <mat-icon class="sort-icon">{{ getIconaOrdinamento('date_lettura_count') }}</mat-icon>
+                </th>
                 <td mat-cell *matCellDef="let storia">
                     <button mat-button class="badge-letture" (click)="apriLetture(storia)" matTooltip="Gestisci letture">
                         <mat-icon>menu_book</mat-icon>
@@ -61,8 +74,7 @@
                     <button mat-icon-button color="primary" (click)="apriModifica(storia)" matTooltip="Modifica storia">
                         <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-icon-button color="warn" (click)="apriConfermaEliminazione(storia)"
-                        matTooltip="Elimina storia">
+                    <button mat-icon-button color="warn" (click)="apriConfermaEliminazione(storia)" matTooltip="Elimina storia">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </td>
@@ -76,7 +88,6 @@
             <mat-paginator [length]="totaleStorie()" [pageSize]="elementiPerPagina()" [pageIndex]="paginaCorrente()"
                 (page)="cambiaPagina($event)" [hidePageSize]="true" showFirstLastButtons aria-label="Seleziona pagina">
             </mat-paginator>
-
             <div class="jump-to-page">
                 <label>Vai a pagina:</label>
                 <input type="number" min="1" [max]="pagineTotali()" [value]="paginaCorrente() + 1" #pageInput
@@ -86,7 +97,7 @@
         </div>
 
         @if (listaStorie().length === 0) {
-        <div class="empty-state">Nessuna storia trovata.</div>
+            <div class="empty-state">Nessuna storia trovata.</div>
         }
     </div>
     }

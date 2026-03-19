@@ -17,16 +17,7 @@ import { ConfermaDialogComponent } from '../../shared/conferma-dialog/conferma-d
 @Component({
   selector: 'app-autori',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatSnackBarModule,
-    RouterModule,
-  ],
+  imports: [ CommonModule, MatTableModule, MatPaginatorModule, MatButtonModule, MatIconModule, MatTooltipModule, MatSnackBarModule, RouterModule ],
   templateUrl: './autori.html',
   styleUrl: './autori.scss'
 })
@@ -40,110 +31,79 @@ export class Autori implements OnInit {
   elementiPerPagina = signal<number>(15);
   pagineTotali = computed(() => Math.ceil(this.totale() / this.elementiPerPagina()));
 
+  // Ordinamento
+  ordinaPer = 'cognome';
+  direzione: 'asc' | 'desc' = 'asc';
+
   colonneMostrate: string[] = ['id', 'cognome', 'nome', 'pseudonimo', 'azioni'];
 
-  constructor(
-    private autoreService: AutoreService,
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar
-  ) {}
+  constructor(private autoreService: AutoreService, private dialog: MatDialog, private snackBar: MatSnackBar) {}
 
-  ngOnInit() {
-    this.caricaAutori(1);
-  }
+  ngOnInit() { this.caricaAutori(1); }
 
   caricaAutori(pagina: number) {
     this.isLoading.set(true);
-    this.autoreService.getAutori(pagina).subscribe({
+    this.autoreService.getAutori(pagina, this.ordinaPer, this.direzione).subscribe({
       next: (response) => {
         this.listaAutori.set(response.dati.data);
         this.totale.set(response.dati.total);
         this.paginaCorrente.set(response.dati.current_page - 1);
-        if (response.dati.per_page) {
-          this.elementiPerPagina.set(response.dati.per_page);
-        }
+        if (response.dati.per_page) this.elementiPerPagina.set(response.dati.per_page);
         this.isLoading.set(false);
       },
-      error: (err) => {
-        console.error('Errore caricamento autori:', err);
-        this.isLoading.set(false);
-      }
+      error: (err) => { console.error('Errore:', err); this.isLoading.set(false); }
     });
   }
 
-  cambiaPagina(event: PageEvent) {
-    this.caricaAutori(event.pageIndex + 1);
+  ordinaPerColonna(colonna: string) {
+    if (this.ordinaPer === colonna) {
+      this.direzione = this.direzione === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.ordinaPer = colonna;
+      this.direzione = 'asc';
+    }
+    this.caricaAutori(1);
   }
+
+  getIconaOrdinamento(colonna: string): string {
+    if (this.ordinaPer !== colonna) return 'unfold_more';
+    return this.direzione === 'asc' ? 'arrow_upward' : 'arrow_downward';
+  }
+
+  cambiaPagina(event: PageEvent) { this.caricaAutori(event.pageIndex + 1); }
 
   saltaAPagina(inputElement: HTMLInputElement) {
-    let paginaScelta = parseInt(inputElement.value, 10);
-    if (paginaScelta < 1) {
-      paginaScelta = 1;
-      inputElement.value = '1';
-    } else if (paginaScelta > this.pagineTotali()) {
-      paginaScelta = this.pagineTotali();
-      inputElement.value = this.pagineTotali().toString();
-    }
-    if (paginaScelta !== this.paginaCorrente() + 1) {
-      this.caricaAutori(paginaScelta);
-    }
+    let p = parseInt(inputElement.value, 10);
+    if (p < 1) { p = 1; inputElement.value = '1'; }
+    else if (p > this.pagineTotali()) { p = this.pagineTotali(); inputElement.value = this.pagineTotali().toString(); }
+    if (p !== this.paginaCorrente() + 1) this.caricaAutori(p);
   }
 
-  // ➕ Nuovo autore
   apriNuovo() {
-    const dialogRef = this.dialog.open(AutoreFormDialog, {
-      width: '550px',
-      maxWidth: '95vw',
-      disableClose: true,
-      data: null
-    });
-    dialogRef.afterClosed().subscribe(risultato => {
-      if (risultato === true) {
-        this.caricaAutori(this.paginaCorrente() + 1);
-        this.snackBar.open('Autore aggiunto!', 'OK', { duration: 3000 });
-      }
-    });
+    const dialogRef = this.dialog.open(AutoreFormDialog, { width: '550px', maxWidth: '95vw', disableClose: true, data: null });
+    dialogRef.afterClosed().subscribe(r => { if (r === true) { this.caricaAutori(this.paginaCorrente() + 1); this.snackBar.open('Autore aggiunto!', 'OK', { duration: 3000 }); } });
   }
 
-  // ✏️ Modifica autore
   apriModifica(autore: Autore) {
-    const dialogRef = this.dialog.open(AutoreFormDialog, {
-      width: '550px',
-      maxWidth: '95vw',
-      disableClose: true,
-      data: { autore }
-    });
-    dialogRef.afterClosed().subscribe(risultato => {
-      if (risultato === true) {
-        this.caricaAutori(this.paginaCorrente() + 1);
-        this.snackBar.open('Autore modificato!', 'OK', { duration: 3000 });
-      }
-    });
+    const dialogRef = this.dialog.open(AutoreFormDialog, { width: '550px', maxWidth: '95vw', disableClose: true, data: { autore } });
+    dialogRef.afterClosed().subscribe(r => { if (r === true) { this.caricaAutori(this.paginaCorrente() + 1); this.snackBar.open('Autore modificato!', 'OK', { duration: 3000 }); } });
   }
 
-  // 🗑️ Elimina autore
   apriConfermaEliminazione(autore: Autore) {
     const nome = [autore.cognome, autore.nome].filter(Boolean).join(' ');
     const dialogRef = this.dialog.open(ConfermaDialogComponent, {
       width: '420px',
-      data: {
-        titolo: 'Conferma eliminazione',
-        messaggio: `Sei sicuro di voler eliminare "${nome}"? L'operazione è irreversibile.`,
-        labelConferma: 'Elimina',
-        labelAnnulla: 'Annulla'
-      }
+      data: { titolo: 'Conferma eliminazione', messaggio: `Sei sicuro di voler eliminare "${nome}"?`, labelConferma: 'Elimina', labelAnnulla: 'Annulla' }
     });
     dialogRef.afterClosed().subscribe((confermato: boolean) => {
       if (confermato) {
         this.autoreService.deleteAutore(autore.id).subscribe({
           next: () => {
-            const paginaDaCaricare = this.listaAutori().length === 1 && this.paginaCorrente() > 0
-              ? this.paginaCorrente()
-              : this.paginaCorrente() + 1;
-            this.caricaAutori(paginaDaCaricare);
+            const p = this.listaAutori().length === 1 && this.paginaCorrente() > 0 ? this.paginaCorrente() : this.paginaCorrente() + 1;
+            this.caricaAutori(p);
             this.snackBar.open('Autore eliminato.', 'OK', { duration: 3000 });
           },
-          error: () => this.snackBar.open('Errore durante l\'eliminazione.', 'Chiudi', { duration: 4000 })
+          error: () => this.snackBar.open('Errore eliminazione.', 'Chiudi', { duration: 4000 })
         });
       }
     });

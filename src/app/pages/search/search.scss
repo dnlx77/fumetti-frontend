@@ -42,6 +42,24 @@
     }
 }
 
+.filtro-field-data {
+    flex: 0 0 150px;
+
+    @media (max-width: 400px) {
+        min-width: 100%;
+    }
+}
+
+.filtri-date {
+    flex-basis: 100%; // ← forza il div su una nuova riga
+    display: flex;
+    gap: 12px;
+
+    .filtro-field-data {
+        flex: 0 0 180px;
+    }
+}
+
 // ================================
 // TAB
 // ================================

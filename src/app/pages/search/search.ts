@@ -71,6 +71,9 @@ export class Search implements OnInit, OnDestroy {
   perPaginaAutori = 20;
   isLoadingAutori = false;
 
+  dalData = '';
+  alData  = '';
+
   apiUrl = environment.apiUrl.replace('/api/v1', '');
 
   private searchSubject = new Subject<void>();
@@ -162,7 +165,7 @@ export class Search implements OnInit, OnDestroy {
     this.isLoadingAlbi = true;
     this.searchService.cercaAlbi({
       q: this.q, campo: this.campoAlbi, tipo: this.tipo,
-      letto: this.lettoAlbi, page: pagina + 1
+      letto: this.lettoAlbi, dal: this.dalData, al: this.alData, page: pagina + 1
     }).subscribe({
       next: (r) => {
         this.risultatiAlbi = r.dati.data;

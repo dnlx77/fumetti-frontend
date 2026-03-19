@@ -13,8 +13,8 @@ export class StoriaService {
   constructor(private http: HttpClient) {}
 
   // Lista paginata
-  getStorie(page: number = 1): Observable<StoriaApiResponse> {
-    return this.http.get<StoriaApiResponse>(`${this.endpoint}?page=${page}`);
+  getStorie(page: number = 1, ordinaPer: string = 'nome', direzione: string = 'asc'): Observable<StoriaApiResponse> {
+    return this.http.get<StoriaApiResponse>(`${this.endpoint}?page=${page}&ordina_per=${ordinaPer}&direzione=${direzione}`);
   }
 
   // Dettaglio singola storia

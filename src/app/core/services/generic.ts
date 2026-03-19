@@ -21,8 +21,8 @@ export class GenericService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(endpoint: string, page: number = 1): Observable<GenericApiResponse> {
-    return this.http.get<GenericApiResponse>(`${environment.apiUrl}/${endpoint}?page=${page}`);
+  getAll(endpoint: string, page: number = 1, direzione: string = 'asc', ordinaPer: string = 'id'): Observable<any> {
+    return this.http.get(`${environment.apiUrl}/${endpoint}?page=${page}&direzione=${direzione}&ordina_per=${ordinaPer}`);
   }
 
   create(endpoint: string, dati: any): Observable<any> {

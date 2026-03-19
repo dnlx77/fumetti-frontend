@@ -12,8 +12,8 @@ export class AlboService {
 
   constructor(private http: HttpClient) { }
 
-  getAlbi(page: number = 1): Observable<ApiResponse<Albo>> {
-    return this.http.get<ApiResponse<Albo>>(`${this.endpoint}?page=${page}`);
+  getAlbi(page: number = 1, ordinaPer: string = 'data_pubblicazione', direzione: string = 'desc'): Observable<ApiResponse<Albo>> {
+    return this.http.get<ApiResponse<Albo>>(`${this.endpoint}?page=${page}&ordina_per=${ordinaPer}&direzione=${direzione}`);
   }
 
   // Recupera il dettaglio completo di un singolo albo
