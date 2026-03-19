@@ -219,23 +219,21 @@
                 </div>
             </div>
 
-            <div class="curiosita-card">
-                <div class="curiosita-icona">💰</div>
+            <div class="curiosita-card" [routerLink]="['/albi', dati?.curiosita?.albo_piu_lungo?.id]">
+                <div class="curiosita-icona">📄</div>
                 <div class="curiosita-info">
-                    <span class="curiosita-titolo">Prezzo medio</span>
-                    <span class="curiosita-valore">{{ formatPrezzo(dati?.curiosita?.prezzo_medio_euro) }}</span>
-                    <span class="curiosita-sub" [hidden]="!dati?.curiosita?.prezzo_medio_lire">
-                        ₤ {{ formatPrezzo(dati?.curiosita?.prezzo_medio_lire, 0) }} (lire)
-                    </span>
+                    <span class="curiosita-titolo">Albo più lungo</span>
+                    <span class="curiosita-valore">{{ dati?.curiosita?.albo_piu_lungo?.titolo || 'N/D' }}</span>
+                    <span class="curiosita-sub">{{ dati?.curiosita?.albo_piu_lungo?.num_pagine }} pagine</span>
                 </div>
             </div>
-
+            
             <div class="curiosita-card">
-                <div class="curiosita-icona">🏷️</div>
+                <div class="curiosita-icona">📊</div>
                 <div class="curiosita-info">
-                    <span class="curiosita-titolo">Collana più grande</span>
-                    <span class="curiosita-valore">{{ dati?.curiosita?.collana_piu_grande?.nome }}</span>
-                    <span class="curiosita-sub">{{ dati?.curiosita?.collana_piu_grande?.totale }} albi</span>
+                    <span class="curiosita-titolo">Media pagine per albo</span>
+                    <span class="curiosita-valore">{{ dati?.curiosita?.media_pagine }}</span>
+                    <span class="curiosita-sub">pagine in media</span>
                 </div>
             </div>
 
@@ -251,12 +249,23 @@
                 </div>
             </div>
 
+            <div class="curiosita-card">
+                <div class="curiosita-icona">💰</div>
+                <div class="curiosita-info">
+                    <span class="curiosita-titolo">Prezzo medio</span>
+                    <span class="curiosita-valore">€ {{ formatPrezzo(dati?.curiosita?.prezzo_medio_euro) }}</span>
+                    <span class="curiosita-sub" [hidden]="!dati?.curiosita?.prezzo_medio_lire">
+                        ₤ {{ formatPrezzo(dati?.curiosita?.prezzo_medio_lire, 0) }} (lire)
+                    </span>
+                </div>
+            </div>
+
             <div class="curiosita-card" [routerLink]="['/albi', dati?.curiosita?.albo_piu_costoso?.id]">
                 <div class="curiosita-icona">💎</div>
                 <div class="curiosita-info">
                     <span class="curiosita-titolo">Albo più costoso</span>
                     <span class="curiosita-valore">{{ dati?.curiosita?.albo_piu_costoso?.titolo || 'N/D' }}</span>
-                    <span class="curiosita-sub">{{ formatPrezzo(dati?.curiosita?.albo_piu_costoso?.prezzo) }}</span>
+                    <span class="curiosita-sub">€ {{ formatPrezzo(dati?.curiosita?.albo_piu_costoso?.prezzo) }}</span>
                 </div>
             </div>
 
@@ -264,10 +273,19 @@
                 <div class="curiosita-icona">🧾</div>
                 <div class="curiosita-info">
                     <span class="curiosita-titolo">Costo totale collezione</span>
-                    <span class="curiosita-valore">{{ formatPrezzo(dati?.curiosita?.costo_totale_euro) }}</span>
+                    <span class="curiosita-valore">€ {{ formatPrezzo(dati?.curiosita?.costo_totale_euro) }}</span>
                     <span class="curiosita-sub" [hidden]="!dati?.curiosita?.costo_totale_lire">
                         ₤ {{ formatPrezzo(dati?.curiosita?.costo_totale_lire, 0) }} (lire)
                     </span>
+                </div>
+            </div>
+
+            <div class="curiosita-card">
+                <div class="curiosita-icona">🏷️</div>
+                <div class="curiosita-info">
+                    <span class="curiosita-titolo">Collana più grande</span>
+                    <span class="curiosita-valore">{{ dati?.curiosita?.collana_piu_grande?.nome }}</span>
+                    <span class="curiosita-sub">{{ dati?.curiosita?.collana_piu_grande?.totale }} albi</span>
                 </div>
             </div>
 
