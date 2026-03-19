@@ -16,7 +16,7 @@
 .table-container {
     background: white;
     border-radius: 8px;
-    overflow: hidden;
+    overflow-x: auto;
 
     .full-width-table {
         width: 100%;
@@ -42,7 +42,6 @@
         vertical-align: middle;
     }
 
-    // La colonna trama è troncata per non allargare troppo la riga
     .trama-cell {
         max-width: 300px;
         white-space: nowrap;
@@ -86,7 +85,6 @@
             text-align: center;
         }
 
-        // Se il conteggio è 0 lo mostriamo grigio
         &:has(.conteggio:empty),
         &.zero {
             color: #bbb;
@@ -94,7 +92,6 @@
     }
 }
 
-// Badge colorato per lo stato
 .stato-badge {
     display: inline-block;
     padding: 3px 10px;
@@ -128,7 +125,6 @@
     }
 }
 
-// Paginatore
 .custom-paginator-wrapper {
     display: flex;
     align-items: center;
@@ -175,13 +171,29 @@
     }
 }
 
-// ================================
-// RESPONSIVE — tablet/mobile
-// ================================
+.col-sortable {
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+
+    &:hover {
+        background: #f0f0f0;
+    }
+
+    .sort-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        vertical-align: middle;
+        margin-left: 4px;
+        color: #999;
+    }
+}
+
 @media (max-width: 768px) {
 
     .table-container {
-        overflow-x: auto !important; // tabella scrollabile orizzontalmente
+        overflow-x: auto !important;
         -webkit-overflow-scrolling: touch;
     }
 
@@ -203,225 +215,23 @@
 
 @media (max-width: 400px) {
 
-    .table-container {
-        border-radius: 0;
-
-        td.mat-cell,
-        th.mat-header-cell {
-            padding: 4px 8px;
-            font-size: 13px;
-        }
-    }
-}
-
-
-@media (max-width: 400px) {
     .storie-container .storie-header {
         h2 {
             font-size: 18px;
         }
     }
 
-    .trama-cell {
-        max-width: 150px; // ancora più stretto su mobile
-    }
-}
+    .table-container {
+        border-radius: 0;
 
-.storie-container {
-
-    .storie-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px;
-
-        h2 {
-            margin: 0;
-            color: #333;
-        }
-    }
-}
-
-.table-container {
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-
-    .full-width-table {
-        width: 100%;
-    }
-
-    .hover-row {
-        transition: background-color 0.2s;
-
-        &:hover {
-            background-color: #f5f5f5;
-        }
-    }
-
-    th.mat-header-cell {
-        font-size: 14px;
-        font-weight: bold;
-        color: #555;
-        background-color: #fafafa;
-    }
-
-    td.mat-cell {
-        font-size: 14px;
-        vertical-align: middle;
-    }
-
-    // La colonna trama è troncata per non allargare troppo la riga
-    .trama-cell {
-        max-width: 300px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color: #666;
-        font-size: 13px;
-    }
-
-    .azioni-cell {
-        white-space: nowrap;
-    }
-
-    .empty-state {
-        padding: 30px;
-        text-align: center;
-        color: #777;
-        font-style: italic;
-    }
-
-    .badge-letture {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        min-width: unset;
-        padding: 0 8px;
-        height: 32px;
-        border-radius: 16px;
-        color: #3f51b5;
-
-        mat-icon {
-            font-size: 18px;
-            width: 18px;
-            height: 18px;
+        .trama-cell {
+            max-width: 150px;
         }
 
-        .conteggio {
+        td.mat-cell,
+        th.mat-header-cell {
+            padding: 4px 8px;
             font-size: 13px;
-            font-weight: 600;
-            min-width: 14px;
-            text-align: center;
         }
-
-        // Se il conteggio è 0 lo mostriamo grigio
-        &:has(.conteggio:empty),
-        &.zero {
-            color: #bbb;
-        }
-    }
-}
-
-// Badge colorato per lo stato
-.stato-badge {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 500;
-    white-space: nowrap;
-
-    &.stato-in_corso {
-        background-color: #fff3e0;
-        color: #e65100;
-    }
-
-    &.stato-autoconclusiva {
-        background-color: #e8f5e9;
-        color: #2e7d32;
-    }
-
-    &.stato-finita {
-        background-color: #e3f2fd;
-        color: #1565c0;
-    }
-}
-
-.nome-cliccabile {
-    cursor: pointer;
-    color: #3f51b5;
-
-    &:hover {
-        text-decoration: underline;
-    }
-}
-
-// Paginatore
-.custom-paginator-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    background-color: white;
-    border-top: 1px solid #e0e0e0;
-    padding-right: 20px;
-
-    ::ng-deep .mat-mdc-paginator {
-        background: transparent;
-    }
-
-    .jump-to-page {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 14px;
-        color: #555;
-        padding-left: 20px;
-        border-left: 1px solid #ddd;
-
-        input {
-            width: 50px;
-            padding: 5px;
-            text-align: center;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.2s;
-
-            &:focus {
-                border-color: #3f51b5;
-            }
-
-            &::-webkit-outer-spin-button,
-            &::-webkit-inner-spin-button {
-                -webkit-appearance: none;
-                margin: 0;
-            }
-
-            -moz-appearance: textfield;
-        }
-    }
-}
-
-// ================================
-// INTESTAZIONI ORDINABILI
-// ================================
-.col-sortable {
-    cursor: pointer;
-    user-select: none;
-    white-space: nowrap;
-
-    &:hover {
-        background: #f0f0f0;
-    }
-
-    .sort-icon {
-        font-size: 16px;
-        width: 16px;
-        height: 16px;
-        vertical-align: middle;
-        margin-left: 4px;
-        color: #999;
     }
 }
