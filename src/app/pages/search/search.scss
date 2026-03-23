@@ -343,6 +343,13 @@
         }
     }
 
+    .filtri-date {
+        .filtro-field-data {
+            flex: 1;
+            min-width: 140px;
+        }
+    }
+
     // Su mobile i bottoni azioni sono sempre visibili
     .azioni {
         opacity: 1;
@@ -361,6 +368,16 @@
     .filtri-row {
         .filtro-field {
             min-width: 100%; // ogni filtro su riga propria
+        }
+    }
+
+    .filtri-date {
+        flex-direction: column; // ← impila i due campi
+        gap: 0;
+
+        .filtro-field-data {
+            width: 100%;
+            flex: none;
         }
     }
 
