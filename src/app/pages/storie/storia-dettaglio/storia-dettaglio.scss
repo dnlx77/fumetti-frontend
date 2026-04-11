@@ -309,3 +309,18 @@
         }
     }
 }
+
+// ================================
+// DA AGGIUNGERE IN FONDO A storia-dettaglio.scss
+// ================================
+.grafico-container {
+    height: 200px;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+
+    canvas {
+        max-width: 100% !important;
+    }
+}

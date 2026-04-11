@@ -73,7 +73,7 @@
                     </li>
                     }
                 </ul>
-            
+
                 @if (pagineTotaliAlbi > 1) {
                 <div class="albi-paginator">
                     <button mat-icon-button [disabled]="paginaAlbi === 0" (click)="paginaAlbiPrev()">
@@ -89,6 +89,7 @@
                 }
             </div>
             }
+
         </div>
 
         <!-- COLONNA DESTRA -->
@@ -98,17 +99,14 @@
                 <h1 class="titolo">{{ storia?.nome || 'Nome non disponibile' }}</h1>
             </div>
 
-            @if (storia?.trama) {
-            <mat-divider></mat-divider>
-            <div class="sezione">
+            <mat-divider [hidden]="!storia?.trama"></mat-divider>
+            <div class="sezione" [hidden]="!storia?.trama">
                 <h3 class="sezione-titolo">📝 <span>Trama</span></h3>
                 <p class="trama-testo">{{ storia?.trama }}</p>
             </div>
-            }
 
-            @if (storia?.autori?.length > 0) {
-            <mat-divider></mat-divider>
-            <div class="sezione">
+            <mat-divider [hidden]="!storia?.autori?.length"></mat-divider>
+            <div class="sezione" [hidden]="!storia?.autori?.length">
                 <h3 class="sezione-titolo">✍️ <span>Autori</span></h3>
                 <ul class="autori-list">
                     @for (autore of storia?.autori; track autore.id) {
@@ -125,7 +123,23 @@
                     }
                 </ul>
             </div>
-            }
+
+            <!-- GRAFICI -->
+            <mat-divider [hidden]="!haGraficoPubblicati"></mat-divider>
+            <div class="sezione" [hidden]="!haGraficoPubblicati">
+                <h3 class="sezione-titolo">📅 <span>Albi pubblicati per mese</span></h3>
+                <div class="grafico-container">
+                    <canvas id="chartAlbiPubblicati"></canvas>
+                </div>
+            </div>
+
+            <mat-divider [hidden]="!haGraficoLetti"></mat-divider>
+            <div class="sezione" [hidden]="!haGraficoLetti">
+                <h3 class="sezione-titolo">📖 <span>Albi letti per mese</span></h3>
+                <div class="grafico-container">
+                    <canvas id="chartAlbiLetti"></canvas>
+                </div>
+            </div>
 
         </div>
 
