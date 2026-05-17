@@ -39,6 +39,7 @@ export class Home implements OnInit, AfterViewInit {
   chartCanvases!: QueryList<ElementRef<HTMLCanvasElement>>;
 
   private charts: Chart[] = [];
+  private graficiInizializzati = false;
 
   // Stato del carosello
   caroselloIndex = signal<number>(0);
@@ -67,7 +68,9 @@ export class Home implements OnInit, AfterViewInit {
   // Chiamato dal template quando i dati sono pronti e i canvas sono visibili
   inizializzaGrafici() {
     const d = this.dati();
-    if (!d) return;
+    if (!d || this.graficiInizializzati) return;
+
+    this.graficiInizializzati = true;
 
     // Distruggiamo eventuali grafici precedenti
     this.charts.forEach(c => c.destroy());
