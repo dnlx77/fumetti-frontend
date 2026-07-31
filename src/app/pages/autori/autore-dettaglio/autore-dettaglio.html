@@ -40,6 +40,19 @@
                 </div>
             </div>
 
+            <!-- Totali per ruolo -->
+            <div class="ruoli-box" [hidden]="!autore?.storie_per_ruolo?.length">
+                <h4 class="ruoli-titolo">Ruoli</h4>
+                <ul class="ruoli-list">
+                    @for (r of autore?.storie_per_ruolo; track r.ruolo) {
+                    <li class="ruolo-row">
+                        <span class="ruolo-nome">{{ r.ruolo }}</span>
+                        <span class="ruolo-totale">{{ r.totale }}</span>
+                    </li>
+                    }
+                </ul>
+            </div>
+
         </div>
 
         <!-- COLONNA DESTRA -->

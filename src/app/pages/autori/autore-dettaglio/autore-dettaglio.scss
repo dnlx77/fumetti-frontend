@@ -5,7 +5,10 @@
 
 .top-bar {
     margin-bottom: 20px;
-    button { color: #555; }
+
+    button {
+        color: #555;
+    }
 }
 
 .loading-state {
@@ -58,7 +61,7 @@
         background: white;
         border-radius: 10px;
         padding: 16px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
         display: flex;
         align-items: center;
         justify-content: space-around;
@@ -88,6 +91,58 @@
             background: #eee;
         }
     }
+
+    // Totali per ruolo
+    .ruoli-box {
+        background: white;
+        border-radius: 10px;
+        padding: 14px 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+
+        .ruoli-titolo {
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            margin: 0 0 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .ruoli-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            .ruolo-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 5px 0;
+                border-bottom: 1px solid #f5f5f5;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                .ruolo-nome {
+                    font-size: 13px;
+                    color: #444;
+                }
+
+                .ruolo-totale {
+                    font-size: 13px;
+                    font-weight: 700;
+                    color: #3f51b5;
+                    background: #e8eaf6;
+                    border-radius: 10px;
+                    padding: 1px 8px;
+                    min-width: 24px;
+                    text-align: center;
+                }
+            }
+        }
+    }
+
 }
 
 // ================================
@@ -99,7 +154,7 @@
     background: white;
     border-radius: 12px;
     padding: 28px 32px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -148,8 +203,13 @@
                 border-radius: 4px;
                 transition: background 0.2s;
 
-                &:last-child { border-bottom: none; }
-                &:hover { background: #f5f5f5; }
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                &:hover {
+                    background: #f5f5f5;
+                }
 
                 .storia-info {
                     display: flex;
@@ -175,9 +235,20 @@
                         white-space: nowrap;
                         flex-shrink: 0;
 
-                        &.stato-in_corso       { background: #fff3e0; color: #e65100; }
-                        &.stato-autoconclusiva { background: #e8f5e9; color: #2e7d32; }
-                        &.stato-finita         { background: #e3f2fd; color: #1565c0; }
+                        &.stato-in_corso {
+                            background: #fff3e0;
+                            color: #e65100;
+                        }
+
+                        &.stato-autoconclusiva {
+                            background: #e8f5e9;
+                            color: #2e7d32;
+                        }
+
+                        &.stato-finita {
+                            background: #e3f2fd;
+                            color: #1565c0;
+                        }
                     }
                 }
 
