@@ -9,7 +9,7 @@
     </div>
 
     @if (isLoading()) {
-        <p>Caricamento... ⏳</p>
+    <p>Caricamento... ⏳</p>
     } @else {
 
     <div class="table-container mat-elevation-z8">
@@ -22,14 +22,23 @@
                 </th>
                 <td mat-cell *matCellDef="let record"> {{ record.id }} </td>
             </ng-container>
-            
+
             <ng-container matColumnDef="valore">
-                <th mat-header-cell *matHeaderCellDef class="col-sortable" (click)="ordinaPerColonna(config.campoTesto)">
+                <th mat-header-cell *matHeaderCellDef class="col-sortable"
+                    (click)="ordinaPerColonna(config.campoTesto)">
                     <span>{{ config.labelCampo }}</span>
                     <mat-icon class="sort-icon">{{ getIconaOrdinamento(config.campoTesto) }}</mat-icon>
                 </th>
                 <td mat-cell *matCellDef="let record">
-                    <strong>{{ record[config.campoTesto] }}</strong>
+                    <!-- Senza link dettaglio -->
+                    <strong *ngIf="!config.percorsoDettaglio">
+                        {{ record[config.campoTesto] }}
+                    </strong>
+                    <!-- Con link dettaglio -->
+                    <strong *ngIf="config.percorsoDettaglio" class="nome-cliccabile"
+                        [routerLink]="[config.percorsoDettaglio, record.id]">
+                        {{ record[config.campoTesto] }}
+                    </strong>
                 </td>
             </ng-container>
 
@@ -39,7 +48,8 @@
                     <button mat-icon-button color="primary" (click)="apriModifica(record)" matTooltip="Modifica">
                         <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-icon-button color="warn" (click)="apriConfermaEliminazione(record)" matTooltip="Elimina">
+                    <button mat-icon-button color="warn" (click)="apriConfermaEliminazione(record)"
+                        matTooltip="Elimina">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </td>
@@ -62,7 +72,7 @@
         </div>
 
         @if (lista().length === 0) {
-            <div class="empty-state">Nessun elemento trovato.</div>
+        <div class="empty-state">Nessun elemento trovato.</div>
         }
     </div>
     }

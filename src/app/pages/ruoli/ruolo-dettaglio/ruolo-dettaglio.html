@@ -1,0 +1,53 @@
+<div class="dettaglio-container">
+
+    <div class="top-bar">
+        <button mat-button (click)="tornaAllaLista()">
+            <span>← Torna alla lista</span>
+        </button>
+    </div>
+
+    <div [hidden]="!isLoading()" class="loading-state">
+        <p>Caricamento... ⏳</p>
+    </div>
+
+    <div [hidden]="isLoading() || datiPronti" class="loading-state">
+        <p>Ruolo non trovato.</p>
+        <button mat-raised-button color="primary" (click)="tornaAllaLista()">
+            <span>Torna alla lista</span>
+        </button>
+    </div>
+
+    <div [hidden]="isLoading() || !datiPronti" class="dettaglio-layout">
+
+        <!-- INTESTAZIONE -->
+        <div class="intestazione">
+            <h1 class="titolo">🎭 {{ ruolo?.descrizione }}</h1>
+            <span class="totale-autori">{{ classifica.length }} {{ classifica.length === 1 ? 'autore' : 'autori' }}</span>
+        </div>
+
+        <!-- CLASSIFICA -->
+        <div class="classifica-card">
+            <h3 class="card-titolo">🏆 Classifica Autori</h3>
+
+            @if (classifica.length === 0) {
+                <p class="nessun-risultato">Nessun autore trovato per questo ruolo.</p>
+            }
+
+            <ul class="classifica-list">
+                @for (autore of classifica; track autore.id; let i = $index) {
+                    <li class="classifica-row" [routerLink]="['/autori', autore.id]">
+                        <span class="posizione" [class.oro]="i === 0" [class.argento]="i === 1" [class.bronzo]="i === 2">
+                            {{ i + 1 }}
+                        </span>
+                        <span class="autore-nome">{{ nomeAutore(autore) }}</span>
+                        <span class="autore-totale">
+                            {{ autore.totale }} {{ autore.totale === 1 ? 'storia' : 'storie' }}
+                        </span>
+                    </li>
+                }
+            </ul>
+        </div>
+
+    </div>
+
+</div>

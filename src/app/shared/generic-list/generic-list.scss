@@ -13,6 +13,15 @@
     }
 }
 
+.nome-cliccabile {
+    cursor: pointer;
+    color: #3f51b5;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
 .table-container {
     background: white;
     border-radius: 8px;

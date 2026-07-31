@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterModule } from '@angular/router';
 
 import { GenericService } from '../../core/services/generic';
 import { GenericFormDialog } from '../generic-form-dialog/generic-form-dialog';
@@ -18,12 +19,13 @@ export interface GenericListConfig {
   campoTesto: string;
   labelCampo: string;
   iconaTitolo?: string;
+  percorsoDettaglio?: string;
 }
 
 @Component({
   selector: 'app-generic-list',
   standalone: true,
-  imports: [ CommonModule, MatTableModule, MatPaginatorModule, MatButtonModule, MatIconModule, MatTooltipModule, MatSnackBarModule ],
+  imports: [ CommonModule, RouterModule, MatTableModule, MatPaginatorModule, MatButtonModule, MatIconModule, MatTooltipModule, MatSnackBarModule ],
   templateUrl: './generic-list.html',
   styleUrl: './generic-list.scss'
 })

@@ -11,6 +11,7 @@ import { StoriaDettaglio } from './pages/storie/storia-dettaglio/storia-dettagli
 import { Editori } from './pages/editori/editori';
 import { Collane } from './pages/collane/collane';
 import { Ruoli } from './pages/ruoli/ruoli';
+import { RuoloDettaglio } from './pages/ruoli/ruolo-dettaglio/ruolo-dettaglio';
 import { Autori } from './pages/autori/autori';
 import { AutoreDettaglio } from './pages/autori/autore-dettaglio/autore-dettaglio';
 import { Statistiche } from './pages/statistiche/statistiche';
@@ -44,6 +45,7 @@ export const routes: Routes = [
       { path: 'editori', component: Editori },
       { path: 'collane', component: Collane },
       { path: 'ruoli', component: Ruoli },
+      { path: 'ruoli/:id', component: RuoloDettaglio },
       { path: 'autori', component: Autori },
       { path: 'autori/:id', component: AutoreDettaglio },
       { path: 'statistiche', component: Statistiche },

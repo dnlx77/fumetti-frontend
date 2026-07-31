@@ -1,0 +1,140 @@
+.dettaglio-container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.top-bar {
+    margin-bottom: 20px;
+    button { color: #555; }
+}
+
+.loading-state {
+    text-align: center;
+    padding: 60px;
+    color: #777;
+}
+
+.dettaglio-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+// ================================
+// INTESTAZIONE
+// ================================
+.intestazione {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    .titolo {
+        margin: 0;
+        font-size: 26px;
+        font-weight: 700;
+        color: #1a1a2e;
+    }
+
+    .totale-autori {
+        font-size: 14px;
+        color: #888;
+        background: #f0f0f0;
+        padding: 4px 12px;
+        border-radius: 12px;
+    }
+}
+
+// ================================
+// CLASSIFICA
+// ================================
+.classifica-card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px 28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+
+    .card-titolo {
+        font-size: 16px;
+        font-weight: 600;
+        color: #444;
+        margin: 0 0 16px;
+    }
+
+    .nessun-risultato {
+        text-align: center;
+        color: #999;
+        font-style: italic;
+        padding: 20px 0;
+    }
+
+    .classifica-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        .classifica-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 10px 8px;
+            border-bottom: 1px solid #f5f5f5;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.2s;
+
+            &:last-child { border-bottom: none; }
+            &:hover { background: #f5f5f5; }
+
+            .posizione {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                background: #e0e0e0;
+                color: #555;
+                font-size: 13px;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+
+                &.oro     { background: #ffd700; color: #7a5c00; }
+                &.argento { background: #c0c0c0; color: #444; }
+                &.bronzo  { background: #cd7f32; color: white; }
+            }
+
+            .autore-nome {
+                flex: 1;
+                font-size: 15px;
+                font-weight: 500;
+                color: #333;
+            }
+
+            .autore-totale {
+                font-size: 13px;
+                color: #3f51b5;
+                font-weight: 600;
+                background: #e8eaf6;
+                padding: 2px 10px;
+                border-radius: 10px;
+                white-space: nowrap;
+            }
+        }
+    }
+}
+
+// ================================
+// RESPONSIVE
+// ================================
+@media (max-width: 400px) {
+
+    .intestazione .titolo { font-size: 20px; }
+
+    .classifica-card {
+        padding: 16px;
+
+        .classifica-row { gap: 10px; }
+    }
+}

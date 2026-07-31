@@ -13,6 +13,7 @@ export class Ruoli {
     endpoint: 'ruoli',
     campoTesto: 'descrizione',
     labelCampo: 'Descrizione',
-    iconaTitolo: '🎭'
+    iconaTitolo: '🎭',
+    percorsoDettaglio: '/ruoli'
   };
 }
