@@ -251,23 +251,19 @@ export class AlboFormDialog implements OnInit {
       const formData = new FormData();
       const valori = this.alboForm.value;
 
-      // Campi testuali base
-      formData.append('titolo', valori.titolo);
-      if (valori.numero) formData.append('numero', valori.numero);
-      if (valori.num_pagine) formData.append('num_pagine', valori.num_pagine);
-      if (valori.data_pubblicazione) formData.append('data_pubblicazione', valori.data_pubblicazione);
-      if (valori.barcode) formData.append('barcode', valori.barcode);
-      if (valori.prezzo) {
-        if (valori.valuta_prezzo === 'lire') {
-          formData.append('prezzo_lire', valori.prezzo);
-        } else {
-          formData.append('prezzo', valori.prezzo);
-        }
-      }
+      // Campi testuali base (sempre inviati, anche vuoti, per poterli svuotare in modifica)
+      formData.append('titolo', valori.titolo ?? '');
+      formData.append('numero', valori.numero ?? '');
+      formData.append('num_pagine', valori.num_pagine ?? '');
+      formData.append('data_pubblicazione', valori.data_pubblicazione ?? '');
+      formData.append('barcode', valori.barcode ?? '');
+      // Svuotiamo sempre entrambi i campi prezzo e valorizziamo solo quello della valuta scelta
+      formData.append('prezzo', valori.prezzo && valori.valuta_prezzo !== 'lire' ? valori.prezzo : '');
+      formData.append('prezzo_lire', valori.prezzo && valori.valuta_prezzo === 'lire' ? valori.prezzo : '');
 
       // Relazioni (solo ID)
-      if (valori.editore?.id) formData.append('editore_id', valori.editore.id);
-      if (valori.collana?.id) formData.append('collana_id', valori.collana.id);
+      formData.append('editore_id', valori.editore?.id ?? '');
+      formData.append('collana_id', valori.collana?.id ?? '');
 
       // Chip → array di ID
       this.autoriSelezionati.forEach(autore => {
